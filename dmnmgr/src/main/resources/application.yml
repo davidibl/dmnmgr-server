@@ -1,0 +1,60 @@
+spring:
+  profiles:
+    active: development
+
+---
+
+spring:
+  profiles: development
+server:
+  port: 11401
+logging:
+  file: log.log
+  level:
+    org:
+      springframework:
+        web: INFO
+camunda:
+  bpm:
+    webapp:
+      index-redirect-enabled: false
+    rest:
+      enabled: false
+
+---
+      
+spring:
+  profiles: test
+server:
+  port: 11401
+logging:
+  file: log.log
+  level:
+    org:
+      springframework:
+        web: INFO
+camunda:
+  bpm:
+    webapp:
+      index-redirect-enabled: false
+    rest:
+      enabled: false
+      
+---
+      
+spring:
+  profiles: consolidation
+server:
+  port: 11401
+logging:
+  file: log.log
+  level:
+    org:
+      springframework:
+        web: INFO
+camunda:
+  bpm:
+    webapp:
+      index-redirect-enabled: false
+    rest:
+      enabled: false

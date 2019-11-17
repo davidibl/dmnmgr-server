@@ -1,0 +1,1 @@
+{"dmnPath":"a_test.dmn","testsuite":{"decision":{"tests":[{"name":"Test A","data":{"test":"Hallo"},"expectedData":[{"res":"Welt"}]},{"name":"Test B","data":{"test":"Hallo"},"expectedData":[{"res":"We"}]}]}},"definitions":{"decision":{"requestModel":{"type":"object","properties":[{"type":"string","name":"test"}]}}}}
