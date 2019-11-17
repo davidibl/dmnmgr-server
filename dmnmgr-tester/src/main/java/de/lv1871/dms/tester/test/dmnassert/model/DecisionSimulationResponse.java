@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.api.model;
+package de.lv1871.dms.tester.test.dmnassert.model;
 
 import java.util.List;
 import java.util.Map;
@@ -42,11 +42,6 @@ public class DecisionSimulationResponse {
 			return this;
 		}
 
-		public DecisionTestCaseResponseBuilder withResultRuleIds(List<String> resultRuleIds) {
-			this.resultRuleIds = resultRuleIds;
-			return this;
-		}
-
 		public DecisionTestCaseResponseBuilder withResult(List<Map<String, Object>> result) {
 			this.result = result;
 			return this;
@@ -54,6 +49,11 @@ public class DecisionSimulationResponse {
 
 		public DecisionSimulationResponse build() {
 			return new DecisionSimulationResponse(message, result, resultRuleIds);
+		}
+
+		public DecisionTestCaseResponseBuilder withResultRuleIds(List<String> resultRuleIds) {
+			this.resultRuleIds = resultRuleIds;
+			return this;
 		}
 	}
 

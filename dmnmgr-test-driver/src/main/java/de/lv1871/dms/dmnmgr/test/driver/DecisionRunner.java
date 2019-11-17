@@ -7,8 +7,8 @@ import org.camunda.bpm.engine.ProcessEngine;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.lv1871.dms.dmnmgr.test.driver.model.DecisionSimulationResponse;
-import de.lv1871.dms.dmnmgr.test.driver.model.DecisionSimulationResponse.DecisionTestCaseResponseBuilder;
+import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse.DecisionTestCaseResponseBuilder;
+import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
 
 public class DecisionRunner {
 

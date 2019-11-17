@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
+import de.lv1871.dms.tester.test.dmnassert.DmnVariableAssert;
+
 public class DmnVariableAssertTest {
 
 	@Test

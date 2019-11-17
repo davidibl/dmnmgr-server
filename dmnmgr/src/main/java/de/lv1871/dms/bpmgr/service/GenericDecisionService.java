@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.lv1871.dms.bpmgr.api.model.DecisionDeploymentResponse;
 import de.lv1871.dms.bpmgr.api.model.DecisionSimulationRequest;
-import de.lv1871.dms.bpmgr.api.model.DecisionSimulationResponse;
-import de.lv1871.dms.bpmgr.api.model.DecisionSimulationResponse.DecisionTestCaseResponseBuilder;
+import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
+import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse.DecisionTestCaseResponseBuilder;
 
 @Service
 public class GenericDecisionService {

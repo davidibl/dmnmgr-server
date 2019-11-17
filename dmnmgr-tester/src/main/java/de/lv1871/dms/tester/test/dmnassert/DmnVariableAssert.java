@@ -1,4 +1,4 @@
-package de.lv1871.dms.dmnmgr.test.driver;
+package de.lv1871.dms.tester.test.dmnassert;
 
 import java.math.BigDecimal;
 import java.util.Map.Entry;

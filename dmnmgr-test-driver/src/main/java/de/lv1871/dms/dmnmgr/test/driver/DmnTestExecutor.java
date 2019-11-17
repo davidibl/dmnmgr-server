@@ -1,6 +1,5 @@
 package de.lv1871.dms.dmnmgr.test.driver;
 
-import static de.lv1871.dms.dmnmgr.test.driver.DmnVariableAssert.equal;
 import static de.lv1871.dms.tester.test.function.LambdaExtension.notNull;
 
 import java.util.ArrayList;
@@ -14,9 +13,10 @@ import org.junit.Assert;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.lv1871.dms.dmnmgr.test.driver.model.DecisionSimulationResponse;
 import de.lv1871.dms.dmnmgr.test.driver.model.DmnTest;
 import junit.framework.TestCase;
+import static de.lv1871.dms.tester.test.dmnassert.DmnAssert.assertEqual;
+import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
 
 public class DmnTestExecutor extends TestCase {
 
@@ -46,7 +46,6 @@ public class DmnTestExecutor extends TestCase {
 	}
 
 	public void testDecision() {
-
 		DecisionSimulationResponse decisionSimulationResponse = DecisionRunner.decide(engine, this.test.getTableId(),
 				this.test.getData());
 
@@ -106,20 +105,6 @@ public class DmnTestExecutor extends TestCase {
 			}
 		}
 		return expectedDataAssertionFailed;
-	}
-
-	private boolean assertEqual(DecisionSimulationResponse decisionSimulationResponse,
-			Entry<String, Object> expectedEntry) {
-		// @formatter:off
-		List<Entry<String, Object>> expectedDataNotFound =
-				decisionSimulationResponse
-					.getResult()
-					.stream()
-					.flatMap(map -> map.entrySet().stream())
-					.filter(resultEntry -> equal(resultEntry, expectedEntry))
-					.collect(Collectors.toList());
-		// @formatter:on
-		return expectedDataNotFound.size() >= 1;
 	}
 
 }

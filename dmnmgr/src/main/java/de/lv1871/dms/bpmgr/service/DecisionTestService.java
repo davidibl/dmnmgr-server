@@ -2,7 +2,6 @@ package de.lv1871.dms.bpmgr.service;
 
 import static de.lv1871.dms.tester.test.function.LambdaExtension.notNull;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +14,12 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.lv1871.dms.bpmgr.api.model.DecisionSimulationResponse;
 import de.lv1871.dms.bpmgr.api.model.DecisionTestRequest;
 import de.lv1871.dms.bpmgr.api.model.DecisionTestResponse;
 import de.lv1871.dms.bpmgr.api.model.DecisionTestResponse.DecisionTestResponseBuilder;
+import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
+
+import static de.lv1871.dms.tester.test.dmnassert.DmnAssert.assertEqual;
 
 @Service
 public class DecisionTestService {
@@ -98,45 +99,5 @@ public class DecisionTestService {
 			}
 		}
 		return expectedDataAssertionFailed;
-	}
-
-	private boolean assertEqual(DecisionSimulationResponse decisionSimulationResponse,
-			Entry<String, Object> expectedEntry) {
-		// @formatter:off
-		List<Entry<String, Object>> expectedDataNotFound =
-				decisionSimulationResponse
-					.getResult()
-					.stream()
-					.flatMap(map -> map.entrySet().stream())
-					.filter(resultEntry -> equal(resultEntry, expectedEntry))
-					.collect(Collectors.toList());
-		// @formatter:on
-		return expectedDataNotFound.size() >= 1;
-	}
-
-	private boolean equal(Entry<String, Object> resultEntry, Entry<String, Object> expectedEntry) {
-		if (!resultEntry.getKey().equals(expectedEntry.getKey())) {
-			return false;
-		}
-		return equal(resultEntry.getValue(), expectedEntry.getValue());
-	}
-
-	private boolean equal(Object result, Object expected) {
-		if (result == null && expected == null) {
-			return true;
-		}
-		if (result == null || expected == null) {
-			return false;
-		}
-		if (result instanceof Number && expected instanceof Number) {
-			return numbersEqual((Number) result, (Number) expected);
-		}
-		return result.equals(expected);
-	}
-
-	private boolean numbersEqual(Number n1, Number n2) {
-		BigDecimal b1 = new BigDecimal(n1.doubleValue());
-		BigDecimal b2 = new BigDecimal(n2.doubleValue());
-		return b1.compareTo(b2) == 0;
 	}
 }

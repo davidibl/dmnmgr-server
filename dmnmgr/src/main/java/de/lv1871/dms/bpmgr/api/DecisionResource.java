@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import de.lv1871.dms.bpmgr.api.model.DecisionDeployment;
 import de.lv1871.dms.bpmgr.api.model.DecisionDeploymentResponse;
 import de.lv1871.dms.bpmgr.api.model.DecisionSimulationRequest;
-import de.lv1871.dms.bpmgr.api.model.DecisionSimulationResponse;
 import de.lv1871.dms.bpmgr.api.model.DecisionTestRequest;
 import de.lv1871.dms.bpmgr.api.model.DecisionTestResponse;
 import de.lv1871.dms.bpmgr.api.model.ServiceResult;
 import de.lv1871.dms.bpmgr.api.model.ServiceResult.ServiceResultBuilder;
 import de.lv1871.dms.bpmgr.service.DecisionTestService;
 import de.lv1871.dms.bpmgr.service.GenericDecisionService;
+import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
