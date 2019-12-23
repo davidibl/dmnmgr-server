@@ -25,27 +25,29 @@
 		    <artifactId>camunda-engine</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.camunda.bpm.extension.dmn.scala</groupId>
+			<artifactId>dmn-engine-camunda-plugin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.camunda.bpm.extension.feel.scala</groupId>
+			<artifactId>feel-engine-plugin</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
-		
-		
 		<dependency>
 			<groupId>org.camunda.bpm</groupId>
 			<artifactId>camunda-engine-plugin-spin</artifactId>
@@ -61,7 +63,6 @@
 				</exclusion>
 			</exclusions>
 			<scope>test</scope>
-			<version>${spin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>

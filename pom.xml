@@ -27,6 +27,7 @@
 		<swagger.version>2.5.0</swagger.version>
 		<h2.version>1.4.193</h2.version>
 		<feel.scala.version>1.6.2</feel.scala.version>
+		<redsix.dmn-check.version>1.0.6</redsix.dmn-check.version>
 	</properties>
 
 	<modules>
@@ -75,7 +76,7 @@
 					</exclusion>
 				</exclusions>
 				<scope>provided</scope>
-				<version>${camunda.version}</version>
+				<version>${spin.version}</version>
 			</dependency>
 			<dependency>
 				<artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
@@ -177,6 +178,11 @@
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-swagger2</artifactId>
 				<version>${swagger.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.redsix</groupId>
+				<artifactId>dmn-check</artifactId>
+				<version>${redsix.dmn-check.version}</version>  
 			</dependency>
 
 			<!-- Testing -->
