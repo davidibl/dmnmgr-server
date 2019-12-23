@@ -2,11 +2,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.lv1871.dms</groupId>
-	<artifactId>dmnmgr-project</artifactId>
+	<artifactId>dmnmgr-server</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>dmnmgr-project</name>
+	<name>dmnmgr-server</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
