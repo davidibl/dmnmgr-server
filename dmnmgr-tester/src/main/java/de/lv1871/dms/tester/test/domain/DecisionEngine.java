@@ -63,7 +63,6 @@ public class DecisionEngine {
         dmnEngineConfig.setDefaultInputEntryExpressionLanguage("feel-scala-unary-tests");
         dmnEngineConfig.setDefaultOutputEntryExpressionLanguage("feel-scala");
         dmnEngineConfig.setDefaultLiteralExpressionLanguage("feel-scala");
-        dmnEngineConfig.setDefaultInputExpressionExpressionLanguage("feel-scala");
 
         List<DmnDecisionTableEvaluationListener> decisionTableEvaluationListeners = new ArrayList<>();
         decisionTableEvaluationListeners.add(tableEvaluationListener);
