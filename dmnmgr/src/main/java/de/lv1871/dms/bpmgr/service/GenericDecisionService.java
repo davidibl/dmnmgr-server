@@ -1,7 +1,6 @@
 package de.lv1871.dms.bpmgr.service;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.springframework.beans.factory.annotation.Autowired;
