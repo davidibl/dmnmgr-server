@@ -36,6 +36,12 @@
 		<module>dmnmgr</module>
 	</modules>
 
+	<scm>
+		<url>https://github.com/davidibl/dmnmgr-server</url>
+		<connection>scm:git:git://github.com:davidibl/dmnmgr-server.git</connection>
+		<developerConnection>scm:git:git@github.com:davidibl/dmnmgr-server.git</developerConnection>
+	</scm>
+
 	<dependencyManagement>
 		<dependencies>
 			
