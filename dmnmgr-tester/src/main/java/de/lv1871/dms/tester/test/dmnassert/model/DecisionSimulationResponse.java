@@ -8,11 +8,18 @@ public class DecisionSimulationResponse {
 	private final String message;
 	private final List<Map<String, Object>> result;
 	private final List<String> resultRuleIds;
+	private final Map<String, List<String>> resultTableRuleIds;
 
-	private DecisionSimulationResponse(String message, List<Map<String, Object>> result, List<String> resultRuleIds) {
+	private DecisionSimulationResponse(String message, List<Map<String, Object>> result, List<String> resultRuleIds,
+			Map<String, List<String>> resultTableRuleIds) {
 		this.message = message;
 		this.result = result;
 		this.resultRuleIds = resultRuleIds;
+		this.resultTableRuleIds = resultTableRuleIds;
+	}
+
+	public Map<String, List<String>> getResultTableRuleIds() {
+		return resultTableRuleIds;
 	}
 
 	public List<Map<String, Object>> getResult() {
@@ -32,6 +39,7 @@ public class DecisionSimulationResponse {
 		private String message = null;
 		private List<Map<String, Object>> result = null;
 		private List<String> resultRuleIds = null;
+		private Map<String, List<String>> resultTableRuleIds = null;
 
 		public static DecisionTestCaseResponseBuilder create() {
 			return new DecisionTestCaseResponseBuilder();
@@ -48,11 +56,16 @@ public class DecisionSimulationResponse {
 		}
 
 		public DecisionSimulationResponse build() {
-			return new DecisionSimulationResponse(message, result, resultRuleIds);
+			return new DecisionSimulationResponse(message, result, resultRuleIds, resultTableRuleIds);
 		}
 
 		public DecisionTestCaseResponseBuilder withResultRuleIds(List<String> resultRuleIds) {
 			this.resultRuleIds = resultRuleIds;
+			return this;
+		}
+
+		public DecisionTestCaseResponseBuilder withResultTableRuleIds(Map<String, List<String>> resultTableRuleIds) {
+			this.resultTableRuleIds = resultTableRuleIds;
 			return this;
 		}
 	}

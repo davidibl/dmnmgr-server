@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.camunda.bpm.dmn.engine.DmnDecision;
@@ -49,8 +50,12 @@ public class DecisionEngine {
         return decisionRequirementsGraphs.get(key).getDecisionKeys().stream().collect(Collectors.toList());
     }
 
-    public List<String> getResulRules(String dmnTableId) {
+    public List<String> getResultRules(String dmnTableId) {
 		return tableEvaluationListener.getLatestMatchedRules(dmnTableId);
+    }
+    
+    public Map<String, List<String>> getResultRulesAllTables() {
+		return tableEvaluationListener.getLatestMatchedRulesToAllMatchedTables();
 	}
 
     private void init() {
@@ -91,6 +96,14 @@ public class DecisionEngine {
                 return new ArrayList<>();
             }
             return latestMatchedRules.get(tableId);
+        }
+
+        public Map<String, List<String>> getLatestMatchedRulesToAllMatchedTables() {
+            return latestMatchedRules
+                .entrySet()
+                .stream()
+                .filter(matchedTable -> matchedTable.getValue().size() > 0)
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
         }
 
     }

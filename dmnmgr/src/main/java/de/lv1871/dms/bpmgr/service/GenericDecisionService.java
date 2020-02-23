@@ -36,10 +36,9 @@ public class GenericDecisionService {
 						.withMessage("Ein oder meherere Output-Felder haben keinen Namen.").build();
 			}
 
-			List<String> resultRules = engine.getResulRules(dmnTableId);
-
 			return DecisionTestCaseResponseBuilder.create()
-					.withResultRuleIds(resultRules)
+					.withResultRuleIds(engine.getResultRules(dmnTableId))
+					.withResultTableRuleIds(engine.getResultRulesAllTables())
 					.withResult(decisionResult.getResultList()).build();
 		} catch (Exception exception) {
 			exception.printStackTrace();
