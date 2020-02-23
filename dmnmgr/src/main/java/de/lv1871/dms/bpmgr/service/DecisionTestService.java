@@ -18,6 +18,7 @@ import de.lv1871.dms.bpmgr.api.model.DecisionTestRequest;
 import de.lv1871.dms.bpmgr.api.model.DecisionTestResponse;
 import de.lv1871.dms.bpmgr.api.model.DecisionTestResponse.DecisionTestResponseBuilder;
 import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
+import de.lv1871.dms.tester.test.domain.DecisionEngine;
 
 import static de.lv1871.dms.tester.test.dmnassert.DmnAssert.assertEqual;
 
@@ -34,8 +35,9 @@ public class DecisionTestService {
 
 	public DecisionTestResponse testDecision(DecisionTestRequest request) {
 
+		DecisionEngine engine = decisionService.deployAndCreateEngine(request.getXml());
 		DecisionSimulationResponse decisionSimulationResponse = decisionService
-				.decide(request.getDecisionRequirementsId(), request.getDmnTableId(), request.getVariables());
+				.decide(engine, request.getDmnTableId(), request.getVariables());
 
 		if (decisionSimulationResponse.getResult() == null) {
 			// @formatter:off
