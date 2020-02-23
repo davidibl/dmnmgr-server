@@ -3,7 +3,7 @@
 
 	<groupId>de.lv1871.dms</groupId>
 	<artifactId>dmnmgr-project</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>dmnmgr-server</name>
@@ -40,7 +40,8 @@
 		<url>https://github.com/davidibl/dmnmgr-server</url>
 		<connection>scm:git:git://github.com:davidibl/dmnmgr-server.git</connection>
 		<developerConnection>scm:git:git@github.com:davidibl/dmnmgr-server.git</developerConnection>
-	</scm>
+	  <tag>HEAD</tag>
+  </scm>
 
 	<dependencyManagement>
 		<dependencies>
