@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import org.camunda.bpm.engine.ProcessEngine;
 import org.junit.Assert;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -17,6 +16,7 @@ import de.lv1871.dms.dmnmgr.test.driver.model.DmnTest;
 import junit.framework.TestCase;
 import static de.lv1871.dms.tester.test.dmnassert.DmnAssert.assertEqual;
 import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
+import de.lv1871.dms.tester.test.domain.DecisionEngine;
 
 public class DmnTestExecutor extends TestCase {
 
@@ -33,12 +33,13 @@ public class DmnTestExecutor extends TestCase {
 	private static VariableMapperService MAPPER = new VariableMapperService();
 
 	private final DmnTest test;
-	private final ProcessEngine engine;
+	// private final ProcessEngine engine;
+    private DecisionEngine dmnEngine;
 
-	public DmnTestExecutor(DmnTest test, ProcessEngine engine) {
+	public DmnTestExecutor(DmnTest test, DecisionEngine engine) {
 		super(test.getName());
 		this.test = test;
-		this.engine = engine;
+		this.dmnEngine = engine;
 	}
 
 	protected void runTest() throws Throwable {
@@ -46,7 +47,7 @@ public class DmnTestExecutor extends TestCase {
 	}
 
 	public void testDecision() {
-		DecisionSimulationResponse decisionSimulationResponse = DecisionRunner.decide(engine, this.test.getTableId(),
+		DecisionSimulationResponse decisionSimulationResponse = DecisionRunner.decide(dmnEngine, this.test.getTableId(),
 				this.test.getData());
 
 		if (decisionSimulationResponse.getResult() == null) {

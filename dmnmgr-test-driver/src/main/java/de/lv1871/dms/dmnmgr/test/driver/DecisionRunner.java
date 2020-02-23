@@ -3,18 +3,18 @@ package de.lv1871.dms.dmnmgr.test.driver;
 import java.util.HashMap;
 
 import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
-import org.camunda.bpm.engine.ProcessEngine;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse.DecisionTestCaseResponseBuilder;
+import de.lv1871.dms.tester.test.domain.DecisionEngine;
 import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
 
 public class DecisionRunner {
 
 	private static VariableMapperService MAPPER = new VariableMapperService();
 
-	public static DecisionSimulationResponse decide(ProcessEngine engine, String decisionKey,
+	public static DecisionSimulationResponse decide(DecisionEngine engine, String decisionKey,
 			ObjectNode variablesNode) {
 
 		// @formatter:off
@@ -22,8 +22,7 @@ public class DecisionRunner {
 			HashMap<String, Object> variables = MAPPER.getVariablesFromJsonAsMap(variablesNode);
 
 			DmnDecisionTableResult decisionResult = engine
-					.getDecisionService()
-					.evaluateDecisionTableByKey(decisionKey, variables);
+					.evaluateDecisionByKey(decisionKey, variables);
 
 			if (decisionResult
 					.getResultList()

@@ -13,9 +13,6 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.lv1871.dms.dmnmgr.test.driver.model.DmnProject;
@@ -23,6 +20,7 @@ import de.lv1871.dms.dmnmgr.test.driver.model.DmnProjectTestContainer;
 import de.lv1871.dms.dmnmgr.test.driver.model.DmnProjectTestDefinition;
 import de.lv1871.dms.dmnmgr.test.driver.model.DmnTest;
 import de.lv1871.dms.dmnmgr.test.driver.model.DmnTestSuite;
+import de.lv1871.dms.tester.test.domain.DecisionEngine;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -122,17 +120,9 @@ public class DmnTestCreator {
 		TestSuite suite = new TestSuite(dmnSuite.getName());
 
 		// @formatter:off
-		ProcessEngine processEngine = ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
-				  .setJdbcUrl("jdbc:h2:mem:my-own-db;DB_CLOSE_DELAY=1000")
-				  .setDatabaseSchemaUpdate("true")
-				  .setJobExecutorActivate(true)
-				  .buildProcessEngine();
+		DecisionEngine processEngine = DecisionEngine.createEngine();
 
-		processEngine
-			.getRepositoryService()
-			.createDeployment()
-			.addString(dmnSuite.getName(), dmnSuite.getXml())
-			.deploy();
+		processEngine.parseDecision(dmnSuite.getXml());
 
 		dmnSuite
 			.getTest()
@@ -146,7 +136,7 @@ public class DmnTestCreator {
 		return suite;
 	}
 
-	private TestSuite entrySetToJunitTestSuite(Entry<String, List<DmnTest>> entry, ProcessEngine engine) {
+	private TestSuite entrySetToJunitTestSuite(Entry<String, List<DmnTest>> entry, DecisionEngine engine) {
 		// @formatter:off
 		TestSuite suite = new TestSuite(entry.getKey());
 		entry
