@@ -67,9 +67,16 @@ public class DmnVariableAssertTest {
 	}
 
 	@Test
-	public void testObjectComparisonWithEqual() {
+	public void testObjectComparisonWithEqualIsFalseWhenUnequal() {
 		TestObject a = new TestObject(1, 3);
 		TestObject b = new TestObject(1, 7);
+		assertFalse(DmnVariableAssert.equalValue(a, b));
+	}
+
+	@Test
+	public void testObjectComparisonWithEqualIsTrueWhenEqual() {
+		TestObject a = new TestObject(1, 3);
+		TestObject b = new TestObject(1, 3);
 		assertTrue(DmnVariableAssert.equalValue(a, b));
 	}
 
@@ -81,6 +88,10 @@ public class DmnVariableAssertTest {
 		public TestObject(int a, int b) {
 			this.a = a;
 			this.b = b;
+		}
+
+		public int getB() {
+			return b;
 		}
 
 		public int getA() {
@@ -96,7 +107,7 @@ public class DmnVariableAssertTest {
 			if (getClass() != obj.getClass())
 				return false;
 			TestObject other = (TestObject) obj;
-			return this.getA() == other.getA();
+			return this.getA() == other.getA() && this.getB() == other.getB();
 		}
 
 	}
