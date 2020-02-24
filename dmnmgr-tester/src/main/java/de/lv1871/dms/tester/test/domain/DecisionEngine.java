@@ -33,13 +33,14 @@ public class DecisionEngine {
         return engine;
     }
 
-    public void parseDecision(String dmnXml) {
+    public DecisionEngine parseDecision(String dmnXml) {
         DmnDecisionRequirementsGraph drg = dmnEngine
                 .parseDecisionRequirementsGraph(new ByteArrayInputStream(dmnXml.getBytes(StandardCharsets.UTF_8)));
         decisionRequirementsGraphs.put(drg.getKey(), drg);
         drg.getDecisionKeys().stream().forEach(key -> {
             this.decisions.put(key, drg.getDecision(key));
         });
+        return this;
     }
 
     public DmnDecisionTableResult evaluateDecisionByKey(String key, Map<String, Object> variables) {
