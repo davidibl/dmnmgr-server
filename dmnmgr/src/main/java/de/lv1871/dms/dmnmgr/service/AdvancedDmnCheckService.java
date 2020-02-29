@@ -1,16 +1,24 @@
 package de.lv1871.dms.dmnmgr.service;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.camunda.bpm.model.dmn.Dmn;
 import org.camunda.bpm.model.dmn.DmnModelInstance;
+import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.springframework.stereotype.Service;
 
-import de.redsix.dmncheck.result.Severity;
+import de.lv1871.dms.dmnmgr.api.model.DecisionRequest;
+import de.lv1871.dms.dmnmgr.api.model.DmnValidationResult;
+import de.lv1871.dms.dmnmgr.api.model.ErrorSeverity;
+import de.lv1871.dms.dmnmgr.api.model.DmnValidationResult.DmnValidationResultBuilder;
 import de.redsix.dmncheck.result.ValidationResult;
 import de.redsix.dmncheck.validators.core.Validator;
 import io.github.classgraph.ClassGraph;
@@ -25,28 +33,58 @@ public class AdvancedDmnCheckService {
     
     private @MonotonicNonNull List<Validator> validators;
 
-    private String[] validatorPackages;
+    private String[] validatorPackages = new String[0];
 
-    private String[] validatorClasses;
+    private String[] validatorClasses = {
+        "de.redsix.dmncheck.validators.ConflictingRuleValidator",
+        "de.redsix.dmncheck.validators.ShadowedRuleValidator",
+        "de.redsix.dmncheck.validators.AggregationOutputTypeValidator",
+        "de.redsix.dmncheck.validators.ConnectedRequirementGraphValidator",
+        "de.redsix.dmncheck.validators.DuplicateRuleValidator",
+        "de.redsix.dmncheck.validators.InputTypeDeclarationValidator",
+        "de.redsix.dmncheck.validators.OutputTypeDeclarationValidator"
+    };
 
-    public boolean testFile(final File file) {
-        boolean encounteredError = false;
+	public List<DmnValidationResult> validateDecision(DecisionRequest decisionRequest) {
+        ByteArrayInputStream stream = new ByteArrayInputStream(decisionRequest.getXml().getBytes(StandardCharsets.UTF_8));
+		return validateDecision(stream);
+	}
 
+    public List<DmnValidationResult> validateDecision(final InputStream file) {
         try {
-            final DmnModelInstance dmnModelInstance = Dmn.readModelFromFile(file);
+            final DmnModelInstance dmnModelInstance = Dmn.readModelFromStream(file);
             final List<ValidationResult> validationResults = runValidators(dmnModelInstance);
 
-            if (!validationResults.isEmpty()) {
-                // PrettyPrintValidationResults.logPrettified(file, validationResults, getLog());
-                encounteredError = validationResults.stream()
-                        .anyMatch(result -> Severity.ERROR.equals(result.getSeverity()));
-            }
+            return validationResults
+                .stream()
+                .filter(result -> !result.getMessage().contains("parse"))
+                .map(this::mapModel)
+                .collect(Collectors.toList());
         }
         catch (Exception e) {
-            encounteredError = true;
+            return Arrays.asList(
+                DmnValidationResultBuilder
+                    .create()
+                    .withMessage(e.getMessage())
+                    .withSeverity(ErrorSeverity.ERROR)
+                    .build()
+            );
         }
+    }
 
-        return encounteredError;
+    private DmnValidationResult mapModel(ValidationResult result) {
+        return DmnValidationResultBuilder
+            .create()
+            .withTableId(Optional
+                .ofNullable(result.getElement())
+                .map(ModelElementInstance::getParentElement)
+                .map(ModelElementInstance::getParentElement)
+                .map(element -> element.getAttributeValue("id"))
+                .orElse(null))
+            .withRuleId(result.getElement().getAttributeValue("id"))
+            .withMessage(result.getMessage())
+            .withSeverity(ErrorSeverity.ofSeverity(result.getSeverity()))
+            .build();
     }
 
     private List<ValidationResult> runValidators(final DmnModelInstance dmnModelInstance) {
@@ -94,4 +132,5 @@ public class AdvancedDmnCheckService {
             throw new RuntimeException("Failed to load validator " + validator, e);
         }
     }
+
 }

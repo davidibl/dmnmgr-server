@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="definitions_09waf08" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decision" name="meineTestDecision">
+    <extensionElements>
+      <biodi:bounds x="150" y="150" width="180" height="80" />
+    </extensionElements>
+    <decisionTable id="decisionTable">
+      <input id="input1" label="">
+        <inputExpression id="inputExpression1" typeRef="string">
+          <text>input</text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="" name="output" typeRef="string" />
+      <rule id="DecisionRule_0fuuqy7">
+        <inputEntry id="UnaryTests_05bm1pg">
+          <text>"Hallo"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1inc6et" expressionLanguage="juel">
+          <text>"Welt"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0uh4uw5">
+        <inputEntry id="UnaryTests_1iq4ymd">
+          <text>"Wow</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0fkz5p4" expressionLanguage="juel">
+          <text>"Cool"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1op4sed">
+        <inputEntry id="UnaryTests_07s7zr3">
+          <text>"Hallo"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1drhxr4" expressionLanguage="juel">
+          <text>"zwei"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
