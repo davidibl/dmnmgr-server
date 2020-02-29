@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr;
+package de.lv1871.dms.dmnmgr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import de.lv1871.dms.bpmgr.api.documentation.DecisionApi;
+import de.lv1871.dms.dmnmgr.api.documentation.DecisionApi;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 

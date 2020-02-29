@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.api.model;
+package de.lv1871.dms.dmnmgr.api.model;
 
 public class ServiceResult {
 

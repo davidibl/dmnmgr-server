@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.controller;
+package de.lv1871.dms.dmnmgr.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

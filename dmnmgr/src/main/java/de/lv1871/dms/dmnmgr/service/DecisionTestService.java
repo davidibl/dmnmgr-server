@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.service;
+package de.lv1871.dms.dmnmgr.service;
 
 import static de.lv1871.dms.tester.test.function.LambdaExtension.notNull;
 
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.lv1871.dms.bpmgr.api.model.DecisionTestRequest;
-import de.lv1871.dms.bpmgr.api.model.DecisionTestResponse;
-import de.lv1871.dms.bpmgr.api.model.DecisionTestResponse.DecisionTestResponseBuilder;
+import de.lv1871.dms.dmnmgr.api.model.DecisionTestRequest;
+import de.lv1871.dms.dmnmgr.api.model.DecisionTestResponse;
+import de.lv1871.dms.dmnmgr.api.model.DecisionTestResponse.DecisionTestResponseBuilder;
 import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
 import de.lv1871.dms.tester.test.domain.DecisionEngine;
 

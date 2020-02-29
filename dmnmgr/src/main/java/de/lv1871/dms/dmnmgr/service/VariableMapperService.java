@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.service;
+package de.lv1871.dms.dmnmgr.service;
 
 import java.io.IOException;
 import java.util.HashMap;

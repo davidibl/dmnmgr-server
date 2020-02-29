@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.api;
+package de.lv1871.dms.dmnmgr.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import de.lv1871.dms.bpmgr.api.model.OpenApiDefinitionResponse;
-import de.lv1871.dms.bpmgr.service.DownloadService;
+import de.lv1871.dms.dmnmgr.api.model.OpenApiDefinitionResponse;
+import de.lv1871.dms.dmnmgr.service.DownloadService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 

@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.api;
+package de.lv1871.dms.dmnmgr.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import de.lv1871.dms.bpmgr.api.model.DecisionSimulationRequest;
-import de.lv1871.dms.bpmgr.api.model.DecisionTestRequest;
-import de.lv1871.dms.bpmgr.api.model.DecisionTestResponse;
-import de.lv1871.dms.bpmgr.service.DecisionTestService;
-import de.lv1871.dms.bpmgr.service.GenericDecisionService;
+import de.lv1871.dms.dmnmgr.api.model.DecisionSimulationRequest;
+import de.lv1871.dms.dmnmgr.api.model.DecisionTestRequest;
+import de.lv1871.dms.dmnmgr.api.model.DecisionTestResponse;
+import de.lv1871.dms.dmnmgr.service.DecisionTestService;
+import de.lv1871.dms.dmnmgr.service.GenericDecisionService;
 import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

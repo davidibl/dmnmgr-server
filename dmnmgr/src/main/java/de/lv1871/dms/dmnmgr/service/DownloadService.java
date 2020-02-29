@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.service;
+package de.lv1871.dms.dmnmgr.service;
 
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
-import de.lv1871.dms.bpmgr.api.model.OpenApiDefinitionResponse;
+import de.lv1871.dms.dmnmgr.api.model.OpenApiDefinitionResponse;
 
 @Service
 public class DownloadService {

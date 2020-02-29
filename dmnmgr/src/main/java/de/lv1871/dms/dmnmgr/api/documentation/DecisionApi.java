@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.api.documentation;
+package de.lv1871.dms.dmnmgr.api.documentation;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 

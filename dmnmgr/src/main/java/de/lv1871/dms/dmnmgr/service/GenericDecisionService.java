@@ -1,4 +1,4 @@
-package de.lv1871.dms.bpmgr.service;
+package de.lv1871.dms.dmnmgr.service;
 
 import java.util.HashMap;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.lv1871.dms.bpmgr.api.model.DecisionSimulationRequest;
+import de.lv1871.dms.dmnmgr.api.model.DecisionSimulationRequest;
 import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse;
 import de.lv1871.dms.tester.test.dmnassert.model.DecisionSimulationResponse.DecisionTestCaseResponseBuilder;
 import de.lv1871.dms.tester.test.domain.DecisionEngine;
