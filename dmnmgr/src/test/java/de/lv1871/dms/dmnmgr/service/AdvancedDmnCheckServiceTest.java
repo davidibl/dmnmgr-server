@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.lv1871.dms.dmnmgr.api.model.DmnValidationResponse;
 import de.lv1871.dms.dmnmgr.api.model.DmnValidationResult;
 
 public class AdvancedDmnCheckServiceTest {
@@ -24,10 +25,10 @@ public class AdvancedDmnCheckServiceTest {
 
     @Test
     public void testCheckHiddenRule() {
-        List<DmnValidationResult> results = cut.validateDecision(this.getClass().getResourceAsStream("/meineTestDecision.dmn"));
+        DmnValidationResponse results = cut.validateDecision(this.getClass().getResourceAsStream("/meineTestDecision.dmn"));
 
-        List<String> decisionTable = results.stream().map(DmnValidationResult::getTableId).distinct().collect(Collectors.toList());
-        List<String> decisionRules = results.stream().map(DmnValidationResult::getRuleId).distinct().collect(Collectors.toList());
+        List<String> decisionTable = results.getErrors().stream().map(DmnValidationResult::getTableId).distinct().collect(Collectors.toList());
+        List<String> decisionRules = results.getErrors().stream().map(DmnValidationResult::getRuleId).distinct().collect(Collectors.toList());
 
         assertNotNull(results);
         

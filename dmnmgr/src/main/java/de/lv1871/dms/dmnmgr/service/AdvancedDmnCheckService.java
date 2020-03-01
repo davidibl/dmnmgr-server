@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.springframework.stereotype.Service;
 
 import de.lv1871.dms.dmnmgr.api.model.DecisionRequest;
+import de.lv1871.dms.dmnmgr.api.model.DmnValidationResponse;
 import de.lv1871.dms.dmnmgr.api.model.DmnValidationResult;
 import de.lv1871.dms.dmnmgr.api.model.ErrorSeverity;
 import de.lv1871.dms.dmnmgr.api.model.DmnValidationResult.DmnValidationResultBuilder;
@@ -45,46 +47,83 @@ public class AdvancedDmnCheckService {
         "de.redsix.dmncheck.validators.OutputTypeDeclarationValidator"
     };
 
-	public List<DmnValidationResult> validateDecision(DecisionRequest decisionRequest) {
+	public DmnValidationResponse validateDecision(DecisionRequest decisionRequest) {
         ByteArrayInputStream stream = new ByteArrayInputStream(decisionRequest.getXml().getBytes(StandardCharsets.UTF_8));
 		return validateDecision(stream);
 	}
 
-    public List<DmnValidationResult> validateDecision(final InputStream file) {
+    public DmnValidationResponse validateDecision(final InputStream file) {
+        DmnValidationResponse response = new DmnValidationResponse();
+        response.setErrors(new ArrayList<>());
+        response.setWarnings(new ArrayList<>());
         try {
             final DmnModelInstance dmnModelInstance = Dmn.readModelFromStream(file);
             final List<ValidationResult> validationResults = runValidators(dmnModelInstance);
 
-            return validationResults
+            List<DmnValidationResult> results = validationResults
                 .stream()
                 .filter(result -> !result.getMessage().contains("parse"))
                 .map(this::mapModel)
                 .collect(Collectors.toList());
+
+            response.setErrors(results
+                .stream()
+                .filter(result -> result.getSeverity() == ErrorSeverity.ERROR)
+                .collect(Collectors.toList()));
+
+            response.setWarnings(results
+                .stream()
+                .filter(result -> result.getSeverity() == ErrorSeverity.WARNING)
+                .collect(Collectors.toList()));
+
+            return response;
         }
         catch (Exception e) {
-            return Arrays.asList(
+            List<DmnValidationResult> errors = Arrays.asList(
                 DmnValidationResultBuilder
                     .create()
                     .withMessage(e.getMessage())
                     .withSeverity(ErrorSeverity.ERROR)
                     .build()
             );
+            response.setErrors(errors);
+            return response;
         }
     }
 
     private DmnValidationResult mapModel(ValidationResult result) {
         return DmnValidationResultBuilder
             .create()
-            .withTableId(Optional
-                .ofNullable(result.getElement())
-                .map(ModelElementInstance::getParentElement)
-                .map(ModelElementInstance::getParentElement)
-                .map(element -> element.getAttributeValue("id"))
-                .orElse(null))
-            .withRuleId(result.getElement().getAttributeValue("id"))
+            .withTableId(getTableId(result.getElement()))
+            .withRuleId(getRuleId(result.getElement()))
             .withMessage(result.getMessage())
             .withSeverity(ErrorSeverity.ofSeverity(result.getSeverity()))
             .build();
+    }
+
+    private String getTableId(ModelElementInstance instance) {
+        if (isDecisionRule(instance)) {
+            return Optional.ofNullable(instance)
+                .map(ModelElementInstance::getParentElement)
+                .map(ModelElementInstance::getParentElement)
+                .map(element -> element.getAttributeValue("id"))
+                .orElse(null);
+        }
+
+        return Optional.ofNullable(instance)
+            .map(element -> element.getAttributeValue("id"))
+            .orElse(null);
+    }
+
+    private String getRuleId(ModelElementInstance instance) {
+        return Optional.ofNullable(instance)
+            .filter(this::isDecisionRule)
+            .map(element -> element.getAttributeValue("id"))
+            .orElse(null);
+    }
+
+    private boolean isDecisionRule(ModelElementInstance instance) {
+        return "decisionRule".equals(instance.getElementType().getBaseType().getTypeName());
     }
 
     private List<ValidationResult> runValidators(final DmnModelInstance dmnModelInstance) {
