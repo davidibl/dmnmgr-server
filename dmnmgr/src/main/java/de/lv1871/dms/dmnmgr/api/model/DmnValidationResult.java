@@ -4,14 +4,21 @@ public class DmnValidationResult {
 
     private final String tableId;
     private final String ruleId;
+    private final String counterRuleId;
     private final String message;
     private final ErrorSeverity severity;
 
-    private DmnValidationResult(String tableId, String ruleId, String message, ErrorSeverity severety) {
+    private DmnValidationResult(String tableId, String ruleId, String counterRuleId, String message,
+            ErrorSeverity severety) {
         this.tableId = tableId;
         this.ruleId = ruleId;
         this.message = message;
         this.severity = severety;
+        this.counterRuleId = counterRuleId;
+    }
+
+    public String getCounterRuleId() {
+        return counterRuleId;
     }
 
     public String getTableId() {
@@ -34,6 +41,7 @@ public class DmnValidationResult {
 
         private String tableId;
         private String ruleId;
+        private String counterRuleId;
         private String message;
         private ErrorSeverity severity;
 
@@ -51,6 +59,11 @@ public class DmnValidationResult {
             return this;
         }
 
+        public DmnValidationResultBuilder withCounterRuleId(String counterRuleId) {
+            this.counterRuleId = counterRuleId;
+            return this;
+        }
+
         public DmnValidationResultBuilder withMessage(String message) {
             this.message = message;
             return this;
@@ -62,7 +75,7 @@ public class DmnValidationResult {
         }
 
         public DmnValidationResult build() {
-            return new DmnValidationResult(tableId, ruleId, message, severity);
+            return new DmnValidationResult(tableId, ruleId, counterRuleId, message, severity);
         }
     }
     

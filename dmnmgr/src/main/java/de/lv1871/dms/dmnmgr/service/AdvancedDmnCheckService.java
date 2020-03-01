@@ -98,9 +98,22 @@ public class AdvancedDmnCheckService {
             .create()
             .withTableId(getTableId(result.getElement()))
             .withRuleId(getRuleId(result.getElement()))
+            .withCounterRuleId(tryFindCounter(result.getMessage()))
             .withMessage(result.getMessage())
             .withSeverity(ErrorSeverity.ofSeverity(result.getSeverity()))
             .build();
+    }
+
+    private String tryFindCounter(String message) {
+        if (message.contains("by rule ")) {
+            return Optional
+                .ofNullable(message.split("by rule "))
+                .filter(arr -> arr.length > 1)
+                .map(arr -> arr[arr.length - 1])
+                .map(value -> value.trim())
+                .orElse(null);
+        }
+        return null;
     }
 
     private String getTableId(ModelElementInstance instance) {
