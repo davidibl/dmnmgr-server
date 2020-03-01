@@ -30,6 +30,9 @@ import io.github.classgraph.ScanResult;
 @Service
 public class AdvancedDmnCheckService {
     
+    private static final String MESSAGE_NOT_CONNECTED_TABLE = "Element is not connected to requirement graph";
+    private static final String ATTRIBUTE_NAME_RULE_ID = "id";
+    private static final String SEQUEL_CORRESPONDING_RULE = "by rule ";
     private static final String VALIDATOR_PACKAGE = "de.redsix.dmncheck.validators";
     private static final String VALIDATOR_CORE_PACKAGE = "de.redsix.dmncheck.validators.core";
     
@@ -100,14 +103,21 @@ public class AdvancedDmnCheckService {
             .withRuleId(getRuleId(result.getElement()))
             .withCounterRuleId(tryFindCounter(result.getMessage()))
             .withMessage(result.getMessage())
-            .withSeverity(ErrorSeverity.ofSeverity(result.getSeverity()))
+            .withSeverity(correctSeverity(result))
             .build();
     }
 
+    public ErrorSeverity correctSeverity(ValidationResult result) {
+        if (MESSAGE_NOT_CONNECTED_TABLE.equals(result.getMessage())) {
+            return ErrorSeverity.WARNING;
+        }
+        return ErrorSeverity.ofSeverity(result.getSeverity());
+    }
+
     private String tryFindCounter(String message) {
-        if (message.contains("by rule ")) {
+        if (message.contains(SEQUEL_CORRESPONDING_RULE)) {
             return Optional
-                .ofNullable(message.split("by rule "))
+                .ofNullable(message.split(SEQUEL_CORRESPONDING_RULE))
                 .filter(arr -> arr.length > 1)
                 .map(arr -> arr[arr.length - 1])
                 .map(value -> value.trim())
@@ -121,32 +131,32 @@ public class AdvancedDmnCheckService {
             return Optional.ofNullable(instance)
                 .map(ModelElementInstance::getParentElement)
                 .map(ModelElementInstance::getParentElement)
-                .map(element -> element.getAttributeValue("id"))
+                .map(element -> element.getAttributeValue(ATTRIBUTE_NAME_RULE_ID))
                 .orElse(null);
         } else if(isLiteralExpression(instance)) {
             return Optional.ofNullable(instance)
                 .map(ModelElementInstance::getParentElement)
                 .map(ModelElementInstance::getParentElement)
                 .map(ModelElementInstance::getParentElement)
-                .map(element -> element.getAttributeValue("id"))
+                .map(element -> element.getAttributeValue(ATTRIBUTE_NAME_RULE_ID))
                 .orElse(null);
         } else if(isOutputClause(instance)) {
             return Optional.ofNullable(instance)
                 .map(ModelElementInstance::getParentElement)
                 .map(ModelElementInstance::getParentElement)
-                .map(element -> element.getAttributeValue("id"))
+                .map(element -> element.getAttributeValue(ATTRIBUTE_NAME_RULE_ID))
                 .orElse(null);
         }
 
         return Optional.ofNullable(instance)
-            .map(element -> element.getAttributeValue("id"))
+            .map(element -> element.getAttributeValue(ATTRIBUTE_NAME_RULE_ID))
             .orElse(null);
     }
 
     private String getRuleId(ModelElementInstance instance) {
         return Optional.ofNullable(instance)
             .filter(this::isDecisionRule)
-            .map(element -> element.getAttributeValue("id"))
+            .map(element -> element.getAttributeValue(ATTRIBUTE_NAME_RULE_ID))
             .orElse(null);
     }
 
