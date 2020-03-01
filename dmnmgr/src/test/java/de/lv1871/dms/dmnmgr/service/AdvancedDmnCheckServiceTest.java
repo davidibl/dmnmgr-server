@@ -39,6 +39,34 @@ public class AdvancedDmnCheckServiceTest {
         assertTrue(allContained(decisionRules, Arrays.asList("DecisionRule_0fuuqy7", "DecisionRule_1op4sed")));
     }
 
+    @Test
+    public void testInputExpressionRequired() {
+        DmnValidationResponse results = cut.validateDecision(this.getClass().getResourceAsStream("/requiredInputExpressionTest.dmn"));
+
+        List<String> decisionTable = results.getErrors().stream().map(DmnValidationResult::getTableId).distinct().collect(Collectors.toList());
+
+        assertNotNull(results);
+        assertEquals(0, results.getWarnings().size());
+        assertEquals(1, results.getErrors().size());
+        assertEquals("decision", decisionTable.get(0));
+        assertEquals("InputExpression has no expressiontext", results.getErrors().get(0).getMessage());
+        
+    }
+
+    @Test
+    public void testOutputNameRequired() {
+        DmnValidationResponse results = cut.validateDecision(this.getClass().getResourceAsStream("/requiredOutputNameTest.dmn"));
+
+        List<String> decisionTable = results.getErrors().stream().map(DmnValidationResult::getTableId).distinct().collect(Collectors.toList());
+
+        assertNotNull(results);
+        assertEquals(0, results.getWarnings().size());
+        assertEquals(1, results.getErrors().size());
+        assertEquals("decision", decisionTable.get(0));
+        assertEquals("Output has no name", results.getErrors().get(0).getMessage());
+        
+    }
+
     private boolean allContained(List<String> decisionRules, List<String> expectedToBeContained) {
         return expectedToBeContained
             .stream()

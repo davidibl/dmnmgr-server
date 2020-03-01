@@ -44,7 +44,9 @@ public class AdvancedDmnCheckService {
         "de.redsix.dmncheck.validators.ConnectedRequirementGraphValidator",
         "de.redsix.dmncheck.validators.DuplicateRuleValidator",
         "de.redsix.dmncheck.validators.InputTypeDeclarationValidator",
-        "de.redsix.dmncheck.validators.OutputTypeDeclarationValidator"
+        "de.redsix.dmncheck.validators.OutputTypeDeclarationValidator",
+        "de.lv1871.dms.dmnmgr.domain.InputExpressionRequiredValidator",
+        "de.lv1871.dms.dmnmgr.domain.OutputNameRequiredValidator"
     };
 
 	public DmnValidationResponse validateDecision(DecisionRequest decisionRequest) {
@@ -108,6 +110,19 @@ public class AdvancedDmnCheckService {
                 .map(ModelElementInstance::getParentElement)
                 .map(element -> element.getAttributeValue("id"))
                 .orElse(null);
+        } else if(isLiteralExpression(instance)) {
+            return Optional.ofNullable(instance)
+                .map(ModelElementInstance::getParentElement)
+                .map(ModelElementInstance::getParentElement)
+                .map(ModelElementInstance::getParentElement)
+                .map(element -> element.getAttributeValue("id"))
+                .orElse(null);
+        } else if(isOutputClause(instance)) {
+            return Optional.ofNullable(instance)
+                .map(ModelElementInstance::getParentElement)
+                .map(ModelElementInstance::getParentElement)
+                .map(element -> element.getAttributeValue("id"))
+                .orElse(null);
         }
 
         return Optional.ofNullable(instance)
@@ -124,6 +139,14 @@ public class AdvancedDmnCheckService {
 
     private boolean isDecisionRule(ModelElementInstance instance) {
         return "decisionRule".equals(instance.getElementType().getBaseType().getTypeName());
+    }
+
+    private boolean isLiteralExpression(ModelElementInstance instance) {
+        return "literalExpression".equals(instance.getElementType().getBaseType().getTypeName());
+    }
+
+    private boolean isOutputClause(ModelElementInstance instance) {
+        return "outputClause".equals(instance.getElementType().getBaseType().getTypeName());
     }
 
     private List<ValidationResult> runValidators(final DmnModelInstance dmnModelInstance) {

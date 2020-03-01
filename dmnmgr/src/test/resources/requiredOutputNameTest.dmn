@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="definitions_09waf08" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decision" name="mydecision">
+    <decisionTable id="decisionTable">
+      <input id="input1" label="">
+        <inputExpression id="inputExpression1" typeRef="string">
+          <text>"eins"</text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="" name="" typeRef="string" />
+      <rule id="DecisionRule_13i1olj">
+        <inputEntry id="UnaryTests_1vpy2bm">
+          <text>"Hallo"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ah0qly" expressionLanguage="juel">
+          <text>"Welt"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
