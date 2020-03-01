@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.camunda.bpm.model.dmn.Dmn;
 import org.camunda.bpm.model.dmn.DmnModelInstance;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
@@ -51,6 +53,11 @@ public class AdvancedDmnCheckService {
         "de.lv1871.dms.dmnmgr.domain.InputExpressionRequiredValidator",
         "de.lv1871.dms.dmnmgr.domain.OutputNameRequiredValidator"
     };
+
+    @PostConstruct
+    public void init() {
+        initValidators();
+    }
 
 	public DmnValidationResponse validateDecision(DecisionRequest decisionRequest) {
         ByteArrayInputStream stream = new ByteArrayInputStream(decisionRequest.getXml().getBytes(StandardCharsets.UTF_8));
@@ -179,9 +186,10 @@ public class AdvancedDmnCheckService {
     }
 
     private List<Validator> getValidators() {
-        if (validators != null) {
-            return validators;
-        }
+        return validators;
+    }
+
+    private void initValidators() {
 
         if (validatorPackages == null) {
             validatorPackages = new String[] {VALIDATOR_PACKAGE, VALIDATOR_PACKAGE + ".core"};
@@ -205,8 +213,6 @@ public class AdvancedDmnCheckService {
                 .filter(validatorClass -> !Modifier.isInterface(validatorClass.getModifiers()))
                 .map(this::instantiateValidator)
                 .collect(Collectors.toList());
-
-        return validators;
     }
 
     private Validator instantiateValidator(final Class<? extends Validator> validator) {
