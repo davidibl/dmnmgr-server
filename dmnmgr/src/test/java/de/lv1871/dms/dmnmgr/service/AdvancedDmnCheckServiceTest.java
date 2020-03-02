@@ -21,6 +21,7 @@ public class AdvancedDmnCheckServiceTest {
     @Before
     public void init() {
         cut = new AdvancedDmnCheckService();
+        cut.init();
     }
 
     @Test
