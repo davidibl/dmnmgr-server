@@ -20,8 +20,16 @@ public class GenericDecisionService {
 	private VariableMapperService mapperService;
 
 	public DecisionSimulationResponse decide(DecisionSimulationRequest decisionRequest) {
-		DecisionEngine engine = deployAndCreateEngine(decisionRequest.getXml());
-		return decide(engine, decisionRequest.getDmnTableId(), decisionRequest.getVariables());
+		try {
+			DecisionEngine engine = deployAndCreateEngine(decisionRequest.getXml());
+			return decide(engine, decisionRequest.getDmnTableId(), decisionRequest.getVariables());
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			if (exception.getCause() != null) {
+				return DecisionTestCaseResponseBuilder.create().withMessage(exception.getCause().getMessage()).build();
+			}
+			return DecisionTestCaseResponseBuilder.create().withMessage(exception.getMessage()).build();
+		}
 	}
 
 	public DecisionSimulationResponse decide(DecisionEngine engine, String dmnTableId, ObjectNode variablesNode) {
@@ -35,10 +43,9 @@ public class GenericDecisionService {
 						.withMessage("Ein oder meherere Output-Felder haben keinen Namen.").build();
 			}
 
-			return DecisionTestCaseResponseBuilder.create()
-					.withResultRuleIds(engine.getResultRules(dmnTableId))
-					.withResultTableRuleIds(engine.getResultRulesAllTables())
-					.withResult(decisionResult.getResultList()).build();
+			return DecisionTestCaseResponseBuilder.create().withResultRuleIds(engine.getResultRules(dmnTableId))
+					.withResultTableRuleIds(engine.getResultRulesAllTables()).withResult(decisionResult.getResultList())
+					.build();
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			if (exception.getCause() != null) {
