@@ -68,6 +68,18 @@ public class AdvancedDmnCheckServiceTest {
         
     }
 
+    @Test
+    public void testJuelGetsBasicValidation() {
+        DmnValidationResponse results = cut.validateDecision(this.getClass().getResourceAsStream("/juelfeel.dmn"));
+
+        List<String> decisionTable = results.getErrors().stream().map(DmnValidationResult::getTableId).distinct().collect(Collectors.toList());
+
+        assertNotNull(results);
+        assertEquals(0, results.getWarnings().size());
+        assertEquals(3, results.getErrors().size());
+        assertEquals("decision", decisionTable.get(0));        
+    }
+
     private boolean allContained(List<String> decisionRules, List<String> expectedToBeContained) {
         return expectedToBeContained
             .stream()

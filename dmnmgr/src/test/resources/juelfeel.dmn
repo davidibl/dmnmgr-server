@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="definitions_09waf08" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decision" name="juelfeel">
+    <decisionTable id="decisionTable">
+      <input id="input1" label="">
+        <inputExpression id="inputExpression1" typeRef="string">
+          <text>test</text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="" name="result" typeRef="string" />
+      <rule id="DecisionRule_09ya3j2">
+        <inputEntry id="UnaryTests_1l0qn94" expressionLanguage="juel">
+          <text>test = "hallo"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pbe0eo" expressionLanguage="juel">
+          <text>"Welt"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1umj0q9">
+        <inputEntry id="UnaryTests_0981zxu">
+          <text>"hallo</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00ipnwl" expressionLanguage="juel">
+          <text>"Huhu"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bvmaoo">
+        <inputEntry id="UnaryTests_1wml01h">
+          <text>Welt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0l0aamp" expressionLanguage="juel">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1de7ijf">
+        <inputEntry id="UnaryTests_0jfqoi2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0fh5k1d" expressionLanguage="juel">
+          <text>"krass"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

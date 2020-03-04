@@ -21,7 +21,7 @@
       </rule>
       <rule id="DecisionRule_0uh4uw5">
         <inputEntry id="UnaryTests_1iq4ymd">
-          <text>"Wow</text>
+          <text>"Wow"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0fkz5p4" expressionLanguage="juel">
           <text>"Cool"</text>

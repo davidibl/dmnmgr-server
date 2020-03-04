@@ -51,7 +51,8 @@ public class AdvancedDmnCheckService {
         "de.redsix.dmncheck.validators.InputTypeDeclarationValidator",
         "de.redsix.dmncheck.validators.OutputTypeDeclarationValidator",
         "de.lv1871.dms.dmnmgr.domain.InputExpressionRequiredValidator",
-        "de.lv1871.dms.dmnmgr.domain.OutputNameRequiredValidator"
+        "de.lv1871.dms.dmnmgr.domain.OutputNameRequiredValidator",
+        "de.lv1871.dms.dmnmgr.domain.InputEntryValidator"
     };
 
     @PostConstruct
@@ -153,6 +154,13 @@ public class AdvancedDmnCheckService {
                 .map(ModelElementInstance::getParentElement)
                 .map(element -> element.getAttributeValue(ATTRIBUTE_NAME_RULE_ID))
                 .orElse(null);
+        } else if(isInputEntry(instance)) {
+            return Optional.ofNullable(instance)
+                .map(ModelElementInstance::getParentElement)
+                .map(ModelElementInstance::getParentElement)
+                .map(ModelElementInstance::getParentElement)
+                .map(element -> element.getAttributeValue(ATTRIBUTE_NAME_RULE_ID))
+                .orElse(null);
         }
 
         return Optional.ofNullable(instance)
@@ -160,11 +168,18 @@ public class AdvancedDmnCheckService {
             .orElse(null);
     }
 
+    private boolean isInputEntry(ModelElementInstance instance) {
+        return "inputEntry".equals(instance.getElementType().getTypeName());
+    }
+
     private String getRuleId(ModelElementInstance instance) {
-        return Optional.ofNullable(instance)
-            .filter(this::isDecisionRule)
-            .map(element -> element.getAttributeValue(ATTRIBUTE_NAME_RULE_ID))
-            .orElse(null);
+        if (isDecisionRule(instance)) {
+            return instance.getAttributeValue(ATTRIBUTE_NAME_RULE_ID);
+        } else if (isInputEntry(instance)) {
+            return instance.getParentElement().getAttributeValue(ATTRIBUTE_NAME_RULE_ID);
+        }
+
+        return null;
     }
 
     private boolean isDecisionRule(ModelElementInstance instance) {
