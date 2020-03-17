@@ -17,6 +17,7 @@
 			<groupId>de.lv1871.dms</groupId>
 			<artifactId>dmnmgr-tester</artifactId>
 			<version>${project.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.camunda.bpm.dmn</groupId>
