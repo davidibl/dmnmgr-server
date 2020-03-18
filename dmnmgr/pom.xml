@@ -50,6 +50,16 @@
 			<artifactId>feel-engine-plugin</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.camunda.bpm.extension.feel.scala</groupId>
+			<artifactId>feel-engine-factory</artifactId>
+			<version>${feel.scala.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.camunda.bpm.extension.feel.scala</groupId>
+			<artifactId>feel-engine</artifactId>
+			<version>${feel.scala.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.camunda.spin</groupId>
 			<artifactId>camunda-spin-dataformat-all</artifactId>
 			<exclusions>
