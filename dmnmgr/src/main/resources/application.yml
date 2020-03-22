@@ -14,12 +14,6 @@ logging:
     org:
       springframework:
         web: INFO
-camunda:
-  bpm:
-    webapp:
-      index-redirect-enabled: false
-    rest:
-      enabled: false
 
 ---
       
@@ -33,12 +27,6 @@ logging:
     org:
       springframework:
         web: INFO
-camunda:
-  bpm:
-    webapp:
-      index-redirect-enabled: false
-    rest:
-      enabled: false
       
 ---
       
@@ -52,9 +40,16 @@ logging:
     org:
       springframework:
         web: INFO
-camunda:
-  bpm:
-    webapp:
-      index-redirect-enabled: false
-    rest:
-      enabled: false
+              
+---
+      
+spring:
+  profiles: production
+server:
+  port: 11401
+logging:
+  file: log.log
+  level:
+    org:
+      springframework:
+        web: INFO
