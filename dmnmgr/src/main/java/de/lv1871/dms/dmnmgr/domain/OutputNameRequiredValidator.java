@@ -4,6 +4,7 @@ package de.lv1871.dms.dmnmgr.domain;
 import de.redsix.dmncheck.result.Severity;
 import de.redsix.dmncheck.result.ValidationResult;
 import de.redsix.dmncheck.validators.core.SimpleValidator;
+import de.redsix.dmncheck.validators.core.ValidationContext;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,19 +15,17 @@ import org.springframework.util.StringUtils;
 public class OutputNameRequiredValidator extends SimpleValidator<Output> {
 
     @Override
-    public boolean isApplicable(Output expression) {
+    protected boolean isApplicable(Output arg0, ValidationContext arg1) {
         return true;
     }
 
     @Override
-    public List<ValidationResult> validate(Output expression) {
+    protected List<ValidationResult> validate(Output expression, ValidationContext arg1) {
         final String outputName = expression.getName();
-        if(StringUtils.isEmpty(outputName)) {
-            return Collections.singletonList(ValidationResult.init
-                    .message(getClassUnderValidation().getSimpleName() + " has no name")
-                    .severity(Severity.ERROR)
-                    .element(expression)
-                    .build());
+        if (StringUtils.isEmpty(outputName)) {
+            return Collections.singletonList(
+                    ValidationResult.init.message(getClassUnderValidation().getSimpleName() + " has no name")
+                            .severity(Severity.ERROR).element(expression).build());
         }
         return Collections.emptyList();
     }

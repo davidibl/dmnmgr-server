@@ -33,7 +33,7 @@
 		<swagger.version>2.5.0</swagger.version>
 		<h2.version>1.4.193</h2.version>
 		<feel.scala.version>1.10.1</feel.scala.version>
-		<redsix.dmn-check.version>1.0.6</redsix.dmn-check.version>
+		<redsix.dmn-check.version>1.1.2</redsix.dmn-check.version>
 	</properties>
 
 	<scm>
@@ -194,6 +194,16 @@
 			<dependency>
 				<groupId>de.redsix</groupId>
 				<artifactId>dmn-check</artifactId>
+				<version>${redsix.dmn-check.version}</version>  
+			</dependency>
+			<dependency>
+				<groupId>de.redsix</groupId>
+				<artifactId>dmn-check-core</artifactId>
+				<version>${redsix.dmn-check.version}</version>  
+			</dependency>
+			<dependency>
+				<groupId>de.redsix</groupId>
+				<artifactId>dmn-check-validators</artifactId>
 				<version>${redsix.dmn-check.version}</version>  
 			</dependency>
 
