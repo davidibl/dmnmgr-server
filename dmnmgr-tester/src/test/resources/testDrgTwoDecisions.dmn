@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="definitions_09waf08" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decisionA" name="decisionA">
+    <extensionElements>
+      <biodi:bounds x="150" y="150" width="180" height="80" />
+    </extensionElements>
+    <decisionTable id="decisionTable">
+      <input id="input1" label="">
+        <inputExpression id="inputExpression1" typeRef="string">
+          <text>input</text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="" name="result" typeRef="string" />
+      <rule id="DecisionRule_0uz832j">
+        <inputEntry id="UnaryTests_1a5w7zb">
+          <text>"a"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0obogsg" expressionLanguage="juel">
+          <text>"b"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="decisionB" name="decisionB">
+    <extensionElements>
+      <biodi:bounds x="420" y="240" width="180" height="80" />
+    </extensionElements>
+    <decisionTable id="DecisionTable_0nolr1v">
+      <input id="InputClause_1q530km">
+        <inputExpression id="LiteralExpression_17iowjn" typeRef="string" />
+      </input>
+      <output id="OutputClause_0k6zsfo" typeRef="string" />
+    </decisionTable>
+  </decision>
+</definitions>

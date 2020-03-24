@@ -33,6 +33,8 @@ public class DecisionEngine {
         return engine;
     }
 
+    private DecisionEngine() {}
+
     public DecisionEngine parseDecision(String dmnXml) {
         DmnDecisionRequirementsGraph drg = dmnEngine
                 .parseDecisionRequirementsGraph(new ByteArrayInputStream(dmnXml.getBytes(StandardCharsets.UTF_8)));
@@ -44,7 +46,7 @@ public class DecisionEngine {
     }
 
     public DmnDecisionTableResult evaluateDecisionByKey(String key, Map<String, Object> variables) {
-        return dmnEngine.evaluateDecisionTable(decisions.get(key), variables);
+        return dmnEngine.evaluateDecisionTable(getDecisionByKey(key), variables);
     }
 
     public List<String> getDecisionKeyByDrgKey(String key) {
@@ -107,6 +109,17 @@ public class DecisionEngine {
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
         }
 
+    }
+
+    public DmnDecision getDecisionByKey(String key) {
+        assertDecisionAvailable(key);
+        return decisions.get(key);
+    }
+
+    private void assertDecisionAvailable(String key) {
+        if (!decisions.containsKey(key)) {
+            throw new IllegalArgumentException(String.format("Decision with key %s not found.", key));
+        }
     }
     
 }
