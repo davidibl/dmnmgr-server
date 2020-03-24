@@ -9,9 +9,9 @@ import static de.lv1871.oss.tester.test.dmnassert.DmnVariableAssert.equal;
 
 public class DmnAssert {
 
-    public static boolean assertEqual(
+    public static <T extends Entry<String, Object>> boolean assertEqual(
         final DecisionSimulationResponse decisionSimulationResponse,
-        final Entry<String, Object> expectedEntry
+        final T expectedEntry
     ) {
 		// @formatter:off
 		List<Entry<String, Object>> expectedDataNotFound =

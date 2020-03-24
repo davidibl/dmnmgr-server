@@ -1,4 +1,4 @@
-package de.lv1871.oss.dmnmgr.test.driver;
+package de.lv1871.oss.tester.test.dmnassert;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import de.lv1871.oss.tester.test.dmnassert.DmnVariableAssert;
 
 public class DmnVariableAssertTest {
 
