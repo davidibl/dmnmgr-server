@@ -53,18 +53,20 @@
         <developer>
             <name>David Ibl</name>
         </developer>
-    </developers>
+	</developers>
+	
+	<licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
 	<dependencyManagement>
 		<dependencies>
 
 			<!-- Camunda dependencies -->
-			<dependency>
-				<groupId>org.camunda.bpm</groupId>
-				<artifactId>camunda-engine-plugin-spin</artifactId>
-				<scope>provided</scope>
-				<version>${camunda.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>org.camunda.bpm.dmn</groupId>
 				<artifactId>camunda-engine-dmn</artifactId>
@@ -81,24 +83,6 @@
 				<version>${camunda.dmn.plugin.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.camunda.spin</groupId>
-				<artifactId>camunda-spin-dataformat-all</artifactId>
-				<exclusions>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-api</artifactId>
-					</exclusion>
-				</exclusions>
-				<scope>provided</scope>
-				<version>${spin.version}</version>
-			</dependency>
-			<dependency>
-				<artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
-				<groupId>org.camunda.bpm.springboot</groupId>
-				<version>${camunda.boot.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.camunda.bpm.extension.feel.scala</groupId>
 				<artifactId>feel-engine-plugin</artifactId>
 				<version>${feel.scala.version}</version>
@@ -113,40 +97,12 @@
 				<artifactId>feel-engine</artifactId>
 				<version>${feel.scala.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.camunda.bpm.extension</groupId>
-				<artifactId>camunda-bpm-assert</artifactId>
-				<version>${camunda.test.assert.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.camunda.bpm.extension</groupId>
-				<artifactId>camunda-bpm-mockito</artifactId>
-				<version>${camunda.test.mockito.version}</version>
-				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>org.mockito</groupId>
-						<artifactId>mockito-core</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
 
 			<!-- Spring -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-data-rest</artifactId>
-				<version>${springframework.boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-configuration-processor</artifactId>
 				<optional>true</optional>
-				<version>${springframework.boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-aop</artifactId>
 				<version>${springframework.boot.version}</version>
 			</dependency>
 			<dependency>
@@ -163,6 +119,12 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-actuator</artifactId>
 				<version>${springframework.boot.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
+				<groupId>org.camunda.bpm.springboot</groupId>
+				<version>${camunda.boot.version}</version>
+				<scope>test</scope>
 			</dependency>
 
 			<!-- Jackson -->

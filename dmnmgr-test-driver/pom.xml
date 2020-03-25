@@ -20,21 +20,6 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.camunda.bpm.dmn</groupId>
-			<artifactId>camunda-engine-dmn</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.camunda.bpm</groupId>
-			<artifactId>camunda-engine</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.camunda.bpm.extension.dmn.scala</groupId>
-			<artifactId>dmn-engine-camunda-plugin</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.camunda.bpm.extension.feel.scala</groupId>
 			<artifactId>feel-engine-plugin</artifactId>
 			<scope>provided</scope>
@@ -48,11 +33,6 @@
 			<groupId>org.camunda.bpm.extension.feel.scala</groupId>
 			<artifactId>feel-engine</artifactId>
 			<version>${feel.scala.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.camunda.bpm</groupId>
-			<artifactId>camunda-engine-plugin-spin</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -72,22 +52,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.camunda.spin</groupId>
-			<artifactId>camunda-spin-dataformat-all</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
