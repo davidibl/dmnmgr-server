@@ -14,6 +14,16 @@ public class DmnAssert {
         final T expectedEntry
     ) {
 		// @formatter:off
+
+		if (expectedEntry.getValue() == null) {
+			return decisionSimulationResponse
+				.getResult()
+				.stream()
+				.flatMap(map -> map.entrySet().stream())
+				.filter(entry -> entry.getKey() == expectedEntry.getKey() && entry.getValue() != null)
+				.count() < 1;
+		}
+
 		List<Entry<String, Object>> expectedDataNotFound =
 				decisionSimulationResponse
 					.getResult()

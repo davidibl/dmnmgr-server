@@ -83,15 +83,7 @@ public class DecisionTestService {
 			ObjectNode expectedNode) {
 		List<Entry<String, Object>> expectedDataAssertionFailed = new ArrayList<>();
 
-		Map<String, Object> expectedMapRaw = mapperService.getVariablesFromJsonAsMap(expectedNode);
-
-		// @formatter:off
-		Map<String, Object> expectedMap = expectedMapRaw
-				.entrySet()
-				.stream()
-				.filter(notNull(Entry::getValue))
-				.collect(Collectors.toMap(Entry::getKey,  Entry::getValue));
-		// @formatter:on
+		Map<String, Object> expectedMap = mapperService.getVariablesFromJsonAsMap(expectedNode);
 
 		for (Entry<String, Object> expectedEntry : expectedMap.entrySet()) {
 			boolean isEqual = assertEqual(decisionSimulationResponse, expectedEntry);

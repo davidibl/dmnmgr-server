@@ -33,6 +33,44 @@ public class DmnAssertTest {
     }
 
     @Test
+    public void assertsNullNotEqualSomeExpectedNumber() {
+        DecisionSimulationResponse decisionSimulationResponse = createDecisionResult(Arrays.asList(
+            createResult(FIELDNAME, null)));
+
+        boolean assertionResult = DmnAssert.assertEqual(decisionSimulationResponse, getEntry(FIELDNAME, VALUE_1));
+        
+        assertFalse(assertionResult);
+    }
+
+    @Test
+    public void assertsNullNotEqualSomeFoundNumber() {
+        DecisionSimulationResponse decisionSimulationResponse = createDecisionResult(Arrays.asList(
+            createResult(FIELDNAME, VALUE_1)));
+
+        boolean assertionResult = DmnAssert.assertEqual(decisionSimulationResponse, getEntry(FIELDNAME, null));
+        
+        assertFalse(assertionResult);
+    }
+
+    @Test
+    public void assertsNullValueEqualNoFoundNumber() {
+        DecisionSimulationResponse decisionSimulationResponse = createDecisionResult(Arrays.asList());
+
+        boolean assertionResult = DmnAssert.assertEqual(decisionSimulationResponse, getEntry(FIELDNAME, null));
+        
+        assertTrue(assertionResult);
+    }
+
+    @Test
+    public void assertsNumberValueNotEqualNoFoundNumber() {
+        DecisionSimulationResponse decisionSimulationResponse = createDecisionResult(Arrays.asList());
+
+        boolean assertionResult = DmnAssert.assertEqual(decisionSimulationResponse, getEntry(FIELDNAME, VALUE_1));
+        
+        assertFalse(assertionResult);
+    }
+
+    @Test
     public void assertsEntryNotFoundAsNotEqual() {
         DecisionSimulationResponse decisionSimulationResponse = createDecisionResult(Arrays.asList(
             createResult(FIELDNAME, VALUE_1),
