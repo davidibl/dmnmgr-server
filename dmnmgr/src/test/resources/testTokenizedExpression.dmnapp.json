@@ -1,0 +1,10 @@
+{
+  "dmnPath": "testTokenizedExpression.dmn",
+  "testsuite": {
+    "decision": {
+      "tests": []
+    }
+  },
+  "definitions": {},
+  "plugins": []
+}

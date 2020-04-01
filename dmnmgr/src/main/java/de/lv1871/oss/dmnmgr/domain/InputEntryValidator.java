@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 import org.camunda.bpm.engine.impl.el.ExpressionManager;
 import org.camunda.bpm.model.dmn.instance.InputEntry;
@@ -77,20 +78,27 @@ public class InputEntryValidator extends SimpleValidator<InputEntry> {
         }
 
         List<ValidationResult> result = new ArrayList<>();
+        Scanner scanner = new Scanner(text);
         try {
-            if (text.startsWith("\"") && !text.endsWith("\"")) {
-                return Arrays.asList(ValidationResult.init
-                        .message(String.format("Error in Feel Expression: (%s) Must end with '\"'", text))
-                        .severity(Severity.ERROR).element(entry).build());
-            }
-            if (!text.startsWith("\"") && text.endsWith("\"")) {
-                return Arrays.asList(ValidationResult.init
-                        .message(String.format("Error in Feel Expression: Must start with '\"'", text))
-                        .severity(Severity.ERROR).element(entry).build());
+            scanner.useDelimiter(",");
+            while(scanner.hasNext()) {
+                String value = scanner.next();
+                if (value.startsWith("\"") && !value.endsWith("\"")) {
+                    return Arrays.asList(ValidationResult.init
+                            .message(String.format("Error in Feel Expression: (%s) Must end with '\"'", text))
+                            .severity(Severity.ERROR).element(entry).build());
+                }
+                if (!value.startsWith("\"") && value.endsWith("\"")) {
+                    return Arrays.asList(ValidationResult.init
+                            .message(String.format("Error in Feel Expression: Must start with '\"'", text))
+                            .severity(Severity.ERROR).element(entry).build());
+                }
             }
         } catch (Exception exception) {
             result.add(ValidationResult.init.message("Error in Juel Expression: " + exception.getMessage())
                     .severity(Severity.ERROR).element(entry).build());
+        } finally {
+            scanner.close();
         }
         return result;
     }

@@ -55,6 +55,25 @@ public class AdvancedDmnCheckServiceTest {
     }
 
     @Test
+    public void testInputExpressionTokenizedHasnoError() {
+        DmnValidationResponse results = cut.validateDecision(this.getClass().getResourceAsStream("/testTokenizedExpression.dmn"));
+
+        assertNotNull(results);
+        assertEquals(0, results.getWarnings().size());
+        assertEquals(0, results.getErrors().size());
+    }
+
+    @Test
+    public void testInputExpressionTokenizedWithError() {
+        DmnValidationResponse results = cut.validateDecision(this.getClass().getResourceAsStream("/testTokenizedWithErrorExpression.dmn"));
+
+        assertNotNull(results);
+        assertEquals(0, results.getWarnings().size());
+        assertEquals(1, results.getErrors().size());
+        
+    }
+
+    @Test
     public void testOutputNameRequired() {
         DmnValidationResponse results = cut.validateDecision(this.getClass().getResourceAsStream("/requiredOutputNameTest.dmn"));
 

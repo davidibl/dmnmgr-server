@@ -1,0 +1,13 @@
+{
+  "dmnPath": "testTokenizedWithErrorExpression.dmn",
+  "testsuite": {
+    "null": {
+      "tests": []
+    },
+    "decision": {
+      "tests": []
+    }
+  },
+  "definitions": {},
+  "plugins": []
+}
