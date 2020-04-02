@@ -86,16 +86,7 @@ public class DmnTestExecutor extends TestCase {
 			ObjectNode expectedNode) {
 		List<Entry<String, Object>> expectedDataAssertionFailed = new ArrayList<>();
 
-		// @formatter:off
-		
-		Map<String, Object> expectedMapRaw = MAPPER.getVariablesFromJsonAsMap(expectedNode);
-
-		Map<String, Object> expectedMap = expectedMapRaw
-				.entrySet()
-				.stream()
-				.filter(notNull(Entry::getValue))
-				.collect(Collectors.toMap(Entry::getKey,  Entry::getValue));
-		// @formatter:on
+		Map<String, Object> expectedMap = MAPPER.getVariablesFromJsonAsMap(expectedNode);
 
 		for (Entry<String, Object> expectedEntry : expectedMap.entrySet()) {
 
