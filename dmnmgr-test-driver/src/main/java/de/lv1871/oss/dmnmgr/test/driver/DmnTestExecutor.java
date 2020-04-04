@@ -1,8 +1,8 @@
 package de.lv1871.oss.dmnmgr.test.driver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.Assert;
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.lv1871.oss.dmnmgr.test.driver.model.DmnTest;
 import junit.framework.TestCase;
-import static de.lv1871.oss.tester.test.dmnassert.DmnAssert.assertEqual;
+import static de.lv1871.oss.tester.test.dmnassert.DmnTest.testExpectation;
 import de.lv1871.oss.tester.test.dmnassert.model.DecisionSimulationResponse;
 import de.lv1871.oss.tester.test.domain.DecisionEngine;
 
@@ -56,7 +56,8 @@ public class DmnTestExecutor extends TestCase {
 			List<Entry<String, Object>> expectedDataAssertionFailed = new ArrayList<>();
 
 			for (ObjectNode expectedNode : this.test.getExpectedData()) {
-				expectedDataAssertionFailed.addAll(testExpectation(decisionSimulationResponse, expectedNode));
+				HashMap<String, Object> expectedObjectMap = MAPPER.getVariablesFromJsonAsMap(expectedNode);
+				expectedDataAssertionFailed.addAll(testExpectation(decisionSimulationResponse, expectedObjectMap));
 			}
 
 			Boolean testFailed = expectedDataAssertionFailed.size() > 0;
@@ -77,23 +78,6 @@ public class DmnTestExecutor extends TestCase {
 		return decisionSimulationResponse.getMessage() == null
 				? String.format(ASSERTION_ERROR_MESSAGE_TEMPLATE, expectedData, result)
 				: decisionSimulationResponse.getMessage();
-	}
-
-	private List<Entry<String, Object>> testExpectation(DecisionSimulationResponse decisionSimulationResponse,
-			ObjectNode expectedNode) {
-		List<Entry<String, Object>> expectedDataAssertionFailed = new ArrayList<>();
-
-		Map<String, Object> expectedMap = MAPPER.getVariablesFromJsonAsMap(expectedNode);
-
-		for (Entry<String, Object> expectedEntry : expectedMap.entrySet()) {
-
-			boolean isEqual = assertEqual(decisionSimulationResponse, expectedEntry);
-
-			if (!isEqual) {
-				expectedDataAssertionFailed.add(expectedEntry);
-			}
-		}
-		return expectedDataAssertionFailed;
 	}
 
 }

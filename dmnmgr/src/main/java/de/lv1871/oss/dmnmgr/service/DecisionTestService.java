@@ -17,7 +17,7 @@ import de.lv1871.oss.dmnmgr.api.model.DecisionTestResponse.DecisionTestResponseB
 import de.lv1871.oss.tester.test.dmnassert.model.DecisionSimulationResponse;
 import de.lv1871.oss.tester.test.domain.DecisionEngine;
 
-import static de.lv1871.oss.tester.test.dmnassert.DmnAssert.assertEqual;
+import static de.lv1871.oss.tester.test.dmnassert.DmnTest.testExpectation;
 
 @Service
 public class DecisionTestService {
@@ -51,7 +51,8 @@ public class DecisionTestService {
 			String message = decisionSimulationResponse.getMessage();
 
 			for (ObjectNode expectedNode : request.getExpectedData()) {
-				expectedDataAssertionFailed.addAll(testExpectation(decisionSimulationResponse, expectedNode));
+				Map<String, Object> expectedObjectMap = mapperService.getVariablesFromJsonAsMap(expectedNode);
+				expectedDataAssertionFailed.addAll(testExpectation(decisionSimulationResponse, expectedObjectMap));
 			}
 
 			if (request.getExpectedData().size() != decisionSimulationResponse.getResult().size()) {
@@ -76,19 +77,4 @@ public class DecisionTestService {
 		}
 	}
 
-	private List<Entry<String, Object>> testExpectation(DecisionSimulationResponse decisionSimulationResponse,
-			ObjectNode expectedNode) {
-		List<Entry<String, Object>> expectedDataAssertionFailed = new ArrayList<>();
-
-		Map<String, Object> expectedMap = mapperService.getVariablesFromJsonAsMap(expectedNode);
-
-		for (Entry<String, Object> expectedEntry : expectedMap.entrySet()) {
-			boolean isEqual = assertEqual(decisionSimulationResponse, expectedEntry);
-
-			if (!isEqual) {
-				expectedDataAssertionFailed.add(expectedEntry);
-			}
-		}
-		return expectedDataAssertionFailed;
-	}
 }
