@@ -1,12 +1,9 @@
 package de.lv1871.oss.dmnmgr.test.driver;
 
-import static de.lv1871.oss.tester.test.function.LambdaExtension.notNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.junit.Assert;
 
