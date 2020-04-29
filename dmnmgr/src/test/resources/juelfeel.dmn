@@ -32,6 +32,14 @@
           <text></text>
         </outputEntry>
       </rule>
+      <rule id="DecisionRule_1ap9f45">
+        <inputEntry id="UnaryTests_1tn1bbb">
+          <text>"hui", "bui"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06l95hn">
+          <text></text>
+        </outputEntry>
+      </rule>
       <rule id="DecisionRule_1de7ijf">
         <inputEntry id="UnaryTests_0jfqoi2">
           <text></text>

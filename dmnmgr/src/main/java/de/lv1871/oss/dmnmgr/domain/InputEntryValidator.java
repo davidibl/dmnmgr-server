@@ -83,14 +83,18 @@ public class InputEntryValidator extends SimpleValidator<InputEntry> {
             scanner.useDelimiter(",");
             while(scanner.hasNext()) {
                 String value = scanner.next();
-                if (value.startsWith("\"") && !value.endsWith("\"")) {
+                if (value == null) {
+                    continue;
+                }
+                String valueTrimmed = value.trim();
+                if (valueTrimmed.startsWith("\"") && !valueTrimmed.endsWith("\"")) {
                     return Arrays.asList(ValidationResult.init
                             .message(String.format("Error in Feel Expression: (%s) Must end with '\"'", text))
                             .severity(Severity.ERROR).element(entry).build());
                 }
-                if (!value.startsWith("\"") && value.endsWith("\"")) {
+                if (!valueTrimmed.startsWith("\"") && valueTrimmed.endsWith("\"")) {
                     return Arrays.asList(ValidationResult.init
-                            .message(String.format("Error in Feel Expression: Must start with '\"'", text))
+                            .message(String.format("Error in Feel Expression: (%s) Must start with '\"'", text))
                             .severity(Severity.ERROR).element(entry).build());
                 }
             }
