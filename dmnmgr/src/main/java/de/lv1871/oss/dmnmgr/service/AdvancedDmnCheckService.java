@@ -2,6 +2,7 @@ package de.lv1871.oss.dmnmgr.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -232,9 +233,10 @@ public class AdvancedDmnCheckService {
 
     private Validator instantiateValidator(final Class<? extends Validator> validator) {
         try {
-            return validator.newInstance();
+            return validator.getDeclaredConstructor().newInstance();
         }
-        catch (IllegalAccessException | InstantiationException e) {
+        catch (IllegalAccessException | InstantiationException |
+                NoSuchMethodException | InvocationTargetException e) {
             throw new RuntimeException("Failed to load validator " + validator, e);
         }
     }

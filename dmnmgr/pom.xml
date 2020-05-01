@@ -99,11 +99,6 @@
 		<!-- Test dependencies -->
 
 		<dependency>
-			<artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
-			<groupId>org.camunda.bpm.springboot</groupId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

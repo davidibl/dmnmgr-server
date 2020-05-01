@@ -91,4 +91,6 @@ db
 settings.json
 .vscode/
 
+log*
+
 # End of https://www.gitignore.io/api/maven,eclipse
