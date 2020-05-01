@@ -26,8 +26,8 @@ public class DmnVariableAssert {
 	}
 
 	public static boolean numbersEqual(Number n1, Number n2) {
-		BigDecimal b1 = new BigDecimal(n1.doubleValue());
-		BigDecimal b2 = new BigDecimal(n2.doubleValue());
+		var b1 = new BigDecimal(n1.doubleValue());
+		var b2 = new BigDecimal(n2.doubleValue());
 		return b1.compareTo(b2) == 0;
 	}
 }

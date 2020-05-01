@@ -2,7 +2,6 @@ package de.lv1871.oss.dmnmgr.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Map.Entry;
 
@@ -14,8 +13,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.lv1871.oss.dmnmgr.api.model.DecisionTestRequest;
 import de.lv1871.oss.dmnmgr.api.model.DecisionTestResponse;
 import de.lv1871.oss.dmnmgr.api.model.DecisionTestResponse.DecisionTestResponseBuilder;
-import de.lv1871.oss.tester.test.dmnassert.model.DecisionSimulationResponse;
-import de.lv1871.oss.tester.test.domain.DecisionEngine;
 
 import static de.lv1871.oss.tester.test.dmnassert.DmnTest.testExpectation;
 
@@ -32,8 +29,8 @@ public class DecisionTestService {
 
 	public DecisionTestResponse testDecision(DecisionTestRequest request) {
 
-		DecisionEngine engine = decisionService.deployAndCreateEngine(request.getXml());
-		DecisionSimulationResponse decisionSimulationResponse = decisionService
+		var engine = decisionService.deployAndCreateEngine(request.getXml());
+		var decisionSimulationResponse = decisionService
 				.decide(engine, request.getDmnTableId(), request.getVariables());
 
 		if (decisionSimulationResponse.getResult() == null) {
@@ -48,10 +45,10 @@ public class DecisionTestService {
 		try {
 
 			List<Entry<String, Object>> expectedDataAssertionFailed = new ArrayList<>();
-			String message = decisionSimulationResponse.getMessage();
+			var message = decisionSimulationResponse.getMessage();
 
 			for (ObjectNode expectedNode : request.getExpectedData()) {
-				Map<String, Object> expectedObjectMap = mapperService.getVariablesFromJsonAsMap(expectedNode);
+				var expectedObjectMap = mapperService.getVariablesFromJsonAsMap(expectedNode);
 				expectedDataAssertionFailed.addAll(testExpectation(decisionSimulationResponse, expectedObjectMap));
 			}
 

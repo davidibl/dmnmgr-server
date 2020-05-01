@@ -19,7 +19,7 @@ public class VariableMapperService {
 
 	@SuppressWarnings("unchecked")
 	public HashMap<String, Object> getVariablesFromJsonAsMap(ObjectNode json) {
-		String valueAsString = json.toString();
+		var valueAsString = json.toString();
 		try {
 			return mapper.readValue(valueAsString, HashMap.class);
 		} catch (IOException e) {

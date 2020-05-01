@@ -26,7 +26,7 @@ public class InputEntryValidator extends SimpleValidator<InputEntry> {
 
     @Override
     protected List<ValidationResult> validate(InputEntry element, ValidationContext arg1) {
-        String expressionLanguage = Optional.ofNullable(element).map(InputEntry::getExpressionLanguage).orElse("feel")
+        var expressionLanguage = Optional.ofNullable(element).map(InputEntry::getExpressionLanguage).orElse("feel")
                 .toLowerCase();
         switch (expressionLanguage) {
             case "feel":
@@ -40,8 +40,10 @@ public class InputEntryValidator extends SimpleValidator<InputEntry> {
 
     private List<ValidationResult> checkExpression(InputEntry element,
             ExtendedBiFunction<InputEntry, String, List<ValidationResult>> validator) {
-        return Optional.ofNullable(element).map(InputEntry::getTextContent).map(validator.curryWith(element))
-                .orElse(Collections.emptyList());
+        return Optional.ofNullable(element)
+            .map(InputEntry::getTextContent)
+            .map(validator.curryWith(element))
+            .orElse(Collections.emptyList());
     }
 
     private List<ValidationResult> checkJuelExpression(InputEntry entry, String text) {
@@ -80,15 +82,15 @@ public class InputEntryValidator extends SimpleValidator<InputEntry> {
         }
 
         List<ValidationResult> result = new ArrayList<>();
-        Scanner scanner = new Scanner(text);
+        var scanner = new Scanner(text);
         try {
             scanner.useDelimiter(",");
             while(scanner.hasNext()) {
-                String value = scanner.next();
+                var value = scanner.next();
                 if (value == null) {
                     continue;
                 }
-                String valueTrimmed = value.trim();
+                var valueTrimmed = value.trim();
                 if (valueTrimmed.startsWith("\"") && !valueTrimmed.endsWith("\"")) {
                     return Arrays.asList(ValidationResult.init
                             .message(String.format("Error in Feel Expression: (%s) Must end with '\"'", text))

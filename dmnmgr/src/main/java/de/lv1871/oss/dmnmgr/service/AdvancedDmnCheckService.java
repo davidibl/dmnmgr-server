@@ -62,19 +62,19 @@ public class AdvancedDmnCheckService {
     }
 
 	public DmnValidationResponse validateDecision(DecisionRequest decisionRequest) {
-        ByteArrayInputStream stream = new ByteArrayInputStream(decisionRequest.getXml().getBytes(StandardCharsets.UTF_8));
+        var stream = new ByteArrayInputStream(decisionRequest.getXml().getBytes(StandardCharsets.UTF_8));
 		return validateDecision(stream);
 	}
 
     public DmnValidationResponse validateDecision(final InputStream file) {
-        DmnValidationResponse response = new DmnValidationResponse();
+        var response = new DmnValidationResponse();
         response.setErrors(new ArrayList<>());
         response.setWarnings(new ArrayList<>());
         try {
-            final DmnModelInstance dmnModelInstance = Dmn.readModelFromStream(file);
-            final List<ValidationResult> validationResults = runValidators(dmnModelInstance);
+            final var dmnModelInstance = Dmn.readModelFromStream(file);
+            final var validationResults = runValidators(dmnModelInstance);
 
-            List<DmnValidationResult> results = validationResults
+            var results = validationResults
                 .stream()
                 .filter(result -> !result.getMessage().contains("parse"))
                 .map(this::mapModel)
@@ -93,7 +93,7 @@ public class AdvancedDmnCheckService {
             return response;
         }
         catch (Exception e) {
-            List<DmnValidationResult> errors = Arrays.asList(
+            var errors = Arrays.asList(
                 DmnValidationResultBuilder
                     .create()
                     .withMessage(e.getMessage())

@@ -30,53 +30,46 @@ public class DmnTestCreator {
 	private static ObjectMapper MAPPER = new ObjectMapper();
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite();
+		var suite = new TestSuite();
 		new DmnTestCreator().createDmnTests(null).forEach(suite::addTest);
 		return suite;
 	}
 
 	public static Test getSuiteParameterized(Path basePath) {
-		TestSuite suite = new TestSuite();
+		var suite = new TestSuite();
 		new DmnTestCreator().createDmnTests(basePath).forEach(suite::addTest);
 		return suite;
 	}
 
 	public List<TestSuite> createDmnTests(Path basePath) {
-		// @formatter:off
 		return findTests(basePath)
 			.stream()
 			.map(this::toJunitTestSuite)
 			.collect(Collectors.toList());
-		// @formatter:on
 	}
 
 	public List<DmnTestSuite> findTests(Path basePath) {
-
-		// @formatter:off
 		return getResourceFiles(basePath)
 			.stream()
 			.filter(file -> file.endsWith(PROJECT_FILE_EXTENSION))
 			.map(file -> Paths.get(file).toString())
 			.map(this::loadTests)
 			.collect(Collectors.toList());
-		// @formatter:on
 	}
 
 	private DmnTestSuite loadTests(String projectFilePath) {
 		try {
-			File projectFile = new File(projectFilePath);
+			var projectFile = new File(projectFilePath);
 
-			DmnProject dmnProject = MAPPER.readValue(new File(projectFilePath), DmnProject.class);
-			DmnTestSuite suite = new DmnTestSuite();
+			var dmnProject = MAPPER.readValue(new File(projectFilePath), DmnProject.class);
+			var suite = new DmnTestSuite();
 
-			// @formatter:off
 			suite.setTest(dmnProject.getTestsuite()
 				.entrySet()
 				.stream()
 				.map(this::toDmnTest)
 				.flatMap(List::stream)
 				.collect(Collectors.toList()));
-			// @formatter:on
 
 			suite.setXml(readXmlFile(projectFile, dmnProject.getDmnPath()));
 			suite.setName(dmnProject.getDmnPath());
@@ -88,41 +81,36 @@ public class DmnTestCreator {
 
 	private String readXmlFile(File projectFile, String dmnPath) throws IOException {
 
-		String dmnFilePath = getResourceRelativToBasePath(projectFile.getParentFile(), dmnPath);
+		var dmnFilePath = getResourceRelativToBasePath(projectFile.getParentFile(), dmnPath);
 
-		Path xmlFile = Paths.get(dmnFilePath);
+		var xmlFile = Paths.get(dmnFilePath);
 		return new String(Files.readAllBytes(xmlFile), StandardCharsets.UTF_8);
 	}
 
 	private List<DmnTest> toDmnTest(Entry<String, DmnProjectTestContainer> testsRaw) {
-		// @formatter:off
 		return testsRaw
 				.getValue()
 				.getTests()
 				.stream()
 				.map(testRaw -> this.testRawToTest(testRaw, testsRaw.getKey()))
 				.collect(Collectors.toList());
-		// @formatter:on
 	}
 
 	private DmnTest testRawToTest(DmnProjectTestDefinition testRaw, String tableId) {
-		DmnTest test = new DmnTest();
+		var test = new DmnTest();
 		test.setData(testRaw.getData());
 		test.setExpectedData(testRaw.getExpectedData());
-		String name = (testRaw.getName() != null && !testRaw.getName().trim().equals("")) ? testRaw.getName()
+		var testName = (testRaw.getName() != null && !testRaw.getName().trim().equals("")) ? testRaw.getName()
 				: UUID.randomUUID().toString();
-		test.setName(name);
+		test.setName(testName);
 		test.setTableId(tableId);
 		return test;
 	}
 
 	private TestSuite toJunitTestSuite(DmnTestSuite dmnSuite) {
-		TestSuite suite = new TestSuite(dmnSuite.getName());
+		var suite = new TestSuite(dmnSuite.getName());
 
-		// @formatter:off
-		DecisionEngine processEngine = DecisionEngine.createEngine();
-
-		processEngine.parseDecision(dmnSuite.getXml());
+		var processEngine = DecisionEngine.createEngine().parseDecision(dmnSuite.getXml());
 
 		dmnSuite
 			.getTest()
@@ -132,12 +120,10 @@ public class DmnTestCreator {
 			.stream()
 			.map(entry -> this.entrySetToJunitTestSuite(entry, processEngine))
 			.forEach(suite::addTest);
-		// @formatter:on
 		return suite;
 	}
 
 	private TestSuite entrySetToJunitTestSuite(Entry<String, List<DmnTest>> entry, DecisionEngine engine) {
-		// @formatter:off
 		TestSuite suite = new TestSuite(entry.getKey());
 		entry
 			.getValue()
@@ -145,17 +131,14 @@ public class DmnTestCreator {
 			.map(dmnTest -> new DmnTestExecutor(dmnTest, engine))
 			.forEach(suite::addTest);
 		return suite;
-		// @formatter:on
 	}
 
 	private String getResourceRelativToBasePath(File baseDirectory, String filename) {
-		// @formatter:off
 		return getResources(baseDirectory)
 			.stream()
 			.filter(file -> file.endsWith(filename))
 			.findFirst()
 			.orElseThrow(() -> new RuntimeException(String.format("DMN File \"%s\" not found", filename)));
-		// @formatter:on
 	}
 
 	private List<String> getResourceFiles(Path basePath) {
@@ -163,7 +146,7 @@ public class DmnTestCreator {
 			return getDmnProjectFilesByPath(basePath);
 		}
 
-		List<String> files = new ArrayList<String>();
+		var files = new ArrayList<String>();
 		files.addAll(getResources(Paths.get("src", "main", "resources").toFile()));
 		files.addAll(getResources(Paths.get("src", "test", "resources").toFile()));
 		return files;
@@ -181,8 +164,8 @@ public class DmnTestCreator {
 		if (base == null || !base.exists() || !base.isDirectory()) {
 			return new ArrayList<>();
 		}
-		// @formatter:off
-		List<String> files = Arrays.asList(base.list())
+
+		var files = Arrays.asList(base.list())
 				.stream()
 				.map(file -> Paths.get(base.getPath(), file).toString())
 				.collect(Collectors.toList());
@@ -195,6 +178,5 @@ public class DmnTestCreator {
 			.collect(Collectors.toList()));
 		
 		return files;
-		// @formatter:on
 	}
 }

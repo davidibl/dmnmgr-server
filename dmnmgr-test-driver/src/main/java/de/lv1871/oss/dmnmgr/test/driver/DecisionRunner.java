@@ -1,9 +1,5 @@
 package de.lv1871.oss.dmnmgr.test.driver;
 
-import java.util.HashMap;
-
-import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.lv1871.oss.tester.test.dmnassert.model.DecisionSimulationResponse.DecisionTestCaseResponseBuilder;
@@ -17,12 +13,10 @@ public class DecisionRunner {
 	public static DecisionSimulationResponse decide(DecisionEngine engine, String decisionKey,
 			ObjectNode variablesNode) {
 
-		// @formatter:off
 		try {
-			HashMap<String, Object> variables = MAPPER.getVariablesFromJsonAsMap(variablesNode);
+			var variables = MAPPER.getVariablesFromJsonAsMap(variablesNode);
 
-			DmnDecisionTableResult decisionResult = engine
-					.evaluateDecisionByKey(decisionKey, variables);
+			var decisionResult = engine.evaluateDecisionByKey(decisionKey, variables);
 
 			if (decisionResult
 					.getResultList()
@@ -50,6 +44,5 @@ public class DecisionRunner {
 					.withMessage(exception.getMessage())
 					.build();
 		}
-		// @formatter:on
 	}
 }

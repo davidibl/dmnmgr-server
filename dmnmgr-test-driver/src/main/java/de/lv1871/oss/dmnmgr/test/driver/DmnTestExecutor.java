@@ -17,7 +17,6 @@ import de.lv1871.oss.tester.test.domain.DecisionEngine;
 
 public class DmnTestExecutor extends TestCase {
 
-	// @formatter:off
 	private static String ASSERTION_ERROR_MESSAGE_TEMPLATE = 
 			"\n--------------------------------------------\n" +
 			"Expected Data:\n" +
@@ -25,12 +24,10 @@ public class DmnTestExecutor extends TestCase {
 			"--------------------------------------------\n" +
 			"Result:\n" +
 			"%s";
-	// @formatter:on
 
 	private static VariableMapperService MAPPER = new VariableMapperService();
 
 	private final DmnTest test;
-	// private final ProcessEngine engine;
     private DecisionEngine dmnEngine;
 
 	public DmnTestExecutor(DmnTest test, DecisionEngine engine) {
@@ -44,7 +41,9 @@ public class DmnTestExecutor extends TestCase {
 	}
 
 	public void testDecision() {
-		DecisionSimulationResponse decisionSimulationResponse = DecisionRunner.decide(dmnEngine, this.test.getTableId(),
+		var decisionSimulationResponse = DecisionRunner.decide(
+				dmnEngine,
+				this.test.getTableId(),
 				this.test.getData());
 
 		if (decisionSimulationResponse.getResult() == null) {
@@ -60,9 +59,9 @@ public class DmnTestExecutor extends TestCase {
 				expectedDataAssertionFailed.addAll(testExpectation(decisionSimulationResponse, expectedObjectMap));
 			}
 
-			Boolean testFailed = expectedDataAssertionFailed.size() > 0;
+			var testFailed = expectedDataAssertionFailed.size() > 0;
 
-			String resultMessage = testFailed ? getFailureMessage(decisionSimulationResponse) : "";
+			var resultMessage = testFailed ? getFailureMessage(decisionSimulationResponse) : "";
 
 			Assert.assertFalse(resultMessage, testFailed);
 
@@ -72,8 +71,8 @@ public class DmnTestExecutor extends TestCase {
 	}
 
 	private String getFailureMessage(DecisionSimulationResponse decisionSimulationResponse) {
-		String expectedData = MAPPER.writeJson(this.test.getExpectedData());
-		String result = MAPPER.writeJson(decisionSimulationResponse.getResult());
+		var expectedData = MAPPER.writeJson(this.test.getExpectedData());
+		var result = MAPPER.writeJson(decisionSimulationResponse.getResult());
 
 		return decisionSimulationResponse.getMessage() == null
 				? String.format(ASSERTION_ERROR_MESSAGE_TEMPLATE, expectedData, result)

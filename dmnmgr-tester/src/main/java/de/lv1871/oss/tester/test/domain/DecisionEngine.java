@@ -3,6 +3,7 @@ package de.lv1871.oss.tester.test.domain;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class DecisionEngine {
     private MyTableEvaluationListener tableEvaluationListener = new MyTableEvaluationListener();
 
     public static DecisionEngine createEngine() {
-        DecisionEngine engine = new DecisionEngine();
+        var engine = new DecisionEngine();
         engine.init();
         return engine;
     }
@@ -36,7 +37,7 @@ public class DecisionEngine {
     private DecisionEngine() {}
 
     public DecisionEngine parseDecision(String dmnXml) {
-        DmnDecisionRequirementsGraph drg = dmnEngine
+        var drg = dmnEngine
                 .parseDecisionRequirementsGraph(new ByteArrayInputStream(dmnXml.getBytes(StandardCharsets.UTF_8)));
         decisionRequirementsGraphs.put(drg.getKey(), drg);
         drg.getDecisionKeys().stream().forEach(key -> {
@@ -66,15 +67,15 @@ public class DecisionEngine {
         decisions = new HashMap<>();
         decisionRequirementsGraphs = new HashMap<>();
 
-        DefaultDmnEngineConfiguration dmnEngineConfig = (DefaultDmnEngineConfiguration) DmnEngineConfiguration
+        var dmnEngineConfig = (DefaultDmnEngineConfiguration) DmnEngineConfiguration
                 .createDefaultDmnEngineConfiguration();
         dmnEngineConfig.setDefaultInputEntryExpressionLanguage("feel-scala-unary-tests");
         dmnEngineConfig.setDefaultOutputEntryExpressionLanguage("feel-scala");
         dmnEngineConfig.setDefaultLiteralExpressionLanguage("feel-scala");
 
-        List<DmnDecisionTableEvaluationListener> decisionTableEvaluationListeners = new ArrayList<>();
-        decisionTableEvaluationListeners.add(tableEvaluationListener);
-        dmnEngineConfig.customPostDecisionTableEvaluationListeners(decisionTableEvaluationListeners);
+        dmnEngineConfig.customPostDecisionTableEvaluationListeners(
+            Arrays.asList(tableEvaluationListener)
+        );
 
         dmnEngine = dmnEngineConfig.feelEngineFactory(new CamundaFeelEngineFactory()).buildEngine();
     }

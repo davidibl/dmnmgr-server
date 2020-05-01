@@ -11,9 +11,4 @@ public class HomeController {
 		return "redirect:swagger-ui.html";
 	}
 
-	@RequestMapping("/camunda")
-	public String camunda() {
-		return "redirect:app/cockpit/default/#/dashboard";
-	}
-
 }

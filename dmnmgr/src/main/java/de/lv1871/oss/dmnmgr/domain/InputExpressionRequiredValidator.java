@@ -24,13 +24,18 @@ public class InputExpressionRequiredValidator extends SimpleValidator<InputExpre
     @Override
     protected List<ValidationResult> validate(InputExpression expression, ValidationContext arg1) {
         try {
-            final String expressionText = Optional.ofNullable(expression).map(InputExpression::getText)
-                    .map(Text::getTextContent).orElse(null);
+            final var expressionText = Optional
+                .ofNullable(expression)
+                .map(InputExpression::getText)
+                .map(Text::getTextContent)
+                .orElse(null);
 
             if (StringUtils.isEmpty(expressionText)) {
                 return Collections.singletonList(ValidationResult.init
                         .message(getClassUnderValidation().getSimpleName() + " has no expressiontext")
-                        .severity(Severity.ERROR).element(expression).build());
+                        .severity(Severity.ERROR)
+                        .element(expression)
+                        .build());
             }
             return Collections.emptyList();
         } catch (Exception ex) {

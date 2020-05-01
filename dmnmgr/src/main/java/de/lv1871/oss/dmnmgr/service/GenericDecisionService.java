@@ -1,8 +1,5 @@
 package de.lv1871.oss.dmnmgr.service;
 
-import java.util.HashMap;
-
-import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +18,7 @@ public class GenericDecisionService {
 
 	public DecisionSimulationResponse decide(DecisionSimulationRequest decisionRequest) {
 		try {
-			DecisionEngine engine = deployAndCreateEngine(decisionRequest.getXml());
+			var engine = deployAndCreateEngine(decisionRequest.getXml());
 			return decide(engine, decisionRequest.getDmnTableId(), decisionRequest.getVariables());
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -35,8 +32,8 @@ public class GenericDecisionService {
 	public DecisionSimulationResponse decide(DecisionEngine engine, String dmnTableId, ObjectNode variablesNode) {
 
 		try {
-			HashMap<String, Object> variables = mapperService.getVariablesFromJsonAsMap(variablesNode);
-			DmnDecisionTableResult decisionResult = engine.evaluateDecisionByKey(dmnTableId, variables);
+			var variables = mapperService.getVariablesFromJsonAsMap(variablesNode);
+			var decisionResult = engine.evaluateDecisionByKey(dmnTableId, variables);
 
 			if (decisionResult.getResultList().stream().filter(result -> result.get(null) != null).count() > 0) {
 				return DecisionTestCaseResponseBuilder.create()
@@ -56,9 +53,9 @@ public class GenericDecisionService {
 	}
 
 	public DecisionEngine deployAndCreateEngine(String dmnXml) {
-		DecisionEngine engine = DecisionEngine.createEngine();
-		engine.parseDecision(dmnXml);
-		return engine;
+		return DecisionEngine
+			.createEngine()
+			.parseDecision(dmnXml);
 	}
 
 }

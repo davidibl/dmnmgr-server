@@ -15,14 +15,14 @@ public class DownloadService {
 
 	public OpenApiDefinitionResponse downloadOpenApiDefinition(String urlString) {
 		try {
-			URL url = new URL(urlString);
+			var url = new URL(urlString);
 
 			String readUrlContents;
 			try (InputStreamReader reader = new InputStreamReader(url.openStream(), Charsets.UTF_8)) {
 				readUrlContents = CharStreams.toString(reader);
 			}
 
-			OpenApiDefinitionResponse response = new OpenApiDefinitionResponse();
+			var response = new OpenApiDefinitionResponse();
 			response.setApiUrl(urlString);
 			response.setSwaggerDefinition(readUrlContents);
 

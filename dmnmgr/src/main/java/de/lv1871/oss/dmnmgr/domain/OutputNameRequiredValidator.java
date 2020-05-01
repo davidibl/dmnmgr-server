@@ -21,11 +21,15 @@ public class OutputNameRequiredValidator extends SimpleValidator<Output> {
 
     @Override
     protected List<ValidationResult> validate(Output expression, ValidationContext arg1) {
-        final String outputName = expression.getName();
+        final var outputName = expression.getName();
         if (StringUtils.isEmpty(outputName)) {
             return Collections.singletonList(
-                    ValidationResult.init.message(getClassUnderValidation().getSimpleName() + " has no name")
-                            .severity(Severity.ERROR).element(expression).build());
+                    ValidationResult
+                        .init
+                        .message(getClassUnderValidation().getSimpleName() + " has no name")
+                        .severity(Severity.ERROR)
+                        .element(expression)
+                        .build());
         }
         return Collections.emptyList();
     }
