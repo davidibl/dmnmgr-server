@@ -1,4 +1,4 @@
-package de.lv1871.oss.dmnmgr.domain;
+package de.lv1871.oss.tester.test.function;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;

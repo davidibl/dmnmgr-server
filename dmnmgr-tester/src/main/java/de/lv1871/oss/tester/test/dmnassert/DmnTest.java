@@ -1,13 +1,12 @@
 package de.lv1871.oss.tester.test.dmnassert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import de.lv1871.oss.tester.test.dmnassert.model.DecisionSimulationResponse;
-
-import static de.lv1871.oss.tester.test.dmnassert.DmnAssert.assertEqual;
+import de.lv1871.oss.tester.test.function.ExtendedBiPredicate;
 
 public class DmnTest {
 
@@ -15,16 +14,13 @@ public class DmnTest {
         DecisionSimulationResponse decisionSimulationResponse,
         Map<String, Object> expectedMap
     ) {
-		List<Entry<String, Object>> expectedDataAssertionFailed = new ArrayList<>();
 
-		for (Entry<String, Object> expectedEntry : expectedMap.entrySet()) {
-
-			boolean isEqual = assertEqual(decisionSimulationResponse, expectedEntry);
-
-			if (!isEqual) {
-				expectedDataAssertionFailed.add(expectedEntry);
-			}
-		}
-		return expectedDataAssertionFailed;
+		return expectedMap.entrySet()
+			.stream()
+			.filter(assertEntry.curryWith(decisionSimulationResponse).negate())
+			.collect(Collectors.toList());
 	}
+
+	private static ExtendedBiPredicate<DecisionSimulationResponse, Entry<String, Object>> assertEntry =
+		DmnAssert::assertEqual;
 }

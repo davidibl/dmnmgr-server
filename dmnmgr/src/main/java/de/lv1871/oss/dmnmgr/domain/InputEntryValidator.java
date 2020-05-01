@@ -15,6 +15,8 @@ import de.redsix.dmncheck.result.ValidationResult;
 import de.redsix.dmncheck.validators.core.SimpleValidator;
 import de.redsix.dmncheck.validators.core.ValidationContext;
 
+import de.lv1871.oss.tester.test.function.ExtendedBiFunction;
+
 public class InputEntryValidator extends SimpleValidator<InputEntry> {
 
     @Override
