@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>de.lv1871.oss</groupId>
 		<artifactId>dmnmgr-project</artifactId>
-		<version>1.3.0</version>
+		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>dmnmgr-test-driver</artifactId>
