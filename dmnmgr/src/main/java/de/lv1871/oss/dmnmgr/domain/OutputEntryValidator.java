@@ -5,10 +5,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
 import org.camunda.bpm.engine.impl.el.ExpressionManager;
-import org.camunda.bpm.model.dmn.instance.InputEntry;
+import org.camunda.bpm.model.dmn.instance.OutputEntry;
 
 import de.redsix.dmncheck.result.Severity;
 import de.redsix.dmncheck.result.ValidationResult;
@@ -18,16 +17,16 @@ import de.redsix.dmncheck.validators.core.ValidationContext;
 import de.lv1871.oss.tester.test.function.ExtendedBiFunction;
 import static de.lv1871.oss.dmnmgr.domain.CheckerFunctions.containesUnquotedtQuotationMark;
 
-public class InputEntryValidator extends SimpleValidator<InputEntry> {
+public class OutputEntryValidator extends SimpleValidator<OutputEntry> {
 
     @Override
-    protected boolean isApplicable(InputEntry arg0, ValidationContext arg1) {
+    protected boolean isApplicable(OutputEntry arg0, ValidationContext arg1) {
         return true;
     }
 
     @Override
-    protected List<ValidationResult> validate(InputEntry element, ValidationContext arg1) {
-        var expressionLanguage = Optional.ofNullable(element).map(InputEntry::getExpressionLanguage).orElse("feel")
+    protected List<ValidationResult> validate(OutputEntry element, ValidationContext arg1) {
+        var expressionLanguage = Optional.ofNullable(element).map(OutputEntry::getExpressionLanguage).orElse("feel")
                 .toLowerCase();
         switch (expressionLanguage) {
             case "feel":
@@ -39,15 +38,15 @@ public class InputEntryValidator extends SimpleValidator<InputEntry> {
         }
     }
 
-    private List<ValidationResult> checkExpression(InputEntry element,
-            ExtendedBiFunction<InputEntry, String, List<ValidationResult>> validator) {
+    private List<ValidationResult> checkExpression(OutputEntry element,
+            ExtendedBiFunction<OutputEntry, String, List<ValidationResult>> validator) {
         return Optional.ofNullable(element)
-            .map(InputEntry::getTextContent)
+            .map(OutputEntry::getTextContent)
             .map(validator.curryWith(element))
             .orElse(Collections.emptyList());
     }
 
-    private List<ValidationResult> checkJuelExpression(InputEntry entry, String text) {
+    private List<ValidationResult> checkJuelExpression(OutputEntry entry, String text) {
         if (text == null) {
             return Collections.emptyList();
         }
@@ -77,50 +76,40 @@ public class InputEntryValidator extends SimpleValidator<InputEntry> {
         return result;
     }
 
-    private List<ValidationResult> checkFeelExpression(InputEntry entry, String text) {
+    private List<ValidationResult> checkFeelExpression(OutputEntry entry, String text) {
         if (text == null) {
             return Collections.emptyList();
         }
 
         List<ValidationResult> result = new ArrayList<>();
-        var scanner = new Scanner(text);
+        String trimmedText = text.trim();
         try {
-            scanner.useDelimiter(",");
-            while(scanner.hasNext()) {
-                var value = scanner.next();
-                if (value == null) {
-                    continue;
-                }
-                var valueTrimmed = value.trim();
-                if (valueTrimmed.startsWith("\"") && !valueTrimmed.endsWith("\"")) {
-                    return Arrays.asList(ValidationResult.init
-                            .message(String.format("Error in Feel Expression: (%s) Must end with '\"'", text))
+            if (trimmedText.startsWith("\"") && !trimmedText.endsWith("\"")) {
+                return Arrays.asList(ValidationResult.init
+                            .message(String.format("Error in Feel Expression: (%s) Must end with '\"'", trimmedText))
                             .severity(Severity.ERROR).element(entry).build());
-                }
-                if (!valueTrimmed.startsWith("\"") && valueTrimmed.endsWith("\"")) {
-                    return Arrays.asList(ValidationResult.init
-                            .message(String.format("Error in Feel Expression: (%s) Must start with '\"'", text))
+            }
+            if (!trimmedText.startsWith("\"") && trimmedText.endsWith("\"")) {
+                return Arrays.asList(ValidationResult.init
+                            .message(String.format("Error in Feel Expression: (%s) Must start with '\"'", trimmedText))
                             .severity(Severity.ERROR).element(entry).build());
-                }
-
-                if (containesUnquotedtQuotationMark(valueTrimmed)) {
-                    result.add(ValidationResult.init
-                        .message(String.format("Error in Feel Expression: (%s) Must not contain a '\"'", valueTrimmed))
-                        .severity(Severity.ERROR).element(entry).build());
-                }
+            }
+            
+            if (containesUnquotedtQuotationMark(trimmedText)) {
+                result.add(ValidationResult.init
+                    .message(String.format("Error in Feel Expression: (%s) Must not contain a '\"'", trimmedText))
+                    .severity(Severity.ERROR).element(entry).build());
             }
         } catch (Exception exception) {
-            result.add(ValidationResult.init.message("Error in Juel Expression: " + exception.getMessage())
+            result.add(ValidationResult.init.message("Error in Feel Expression: " + exception.getMessage())
                     .severity(Severity.ERROR).element(entry).build());
-        } finally {
-            scanner.close();
         }
         return result;
     }
 
     @Override
-    public Class<InputEntry> getClassUnderValidation() {
-        return InputEntry.class;
+    public Class<OutputEntry> getClassUnderValidation() {
+        return OutputEntry.class;
     }
 
     

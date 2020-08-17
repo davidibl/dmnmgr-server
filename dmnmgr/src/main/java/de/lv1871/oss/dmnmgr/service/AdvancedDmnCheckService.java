@@ -53,7 +53,8 @@ public class AdvancedDmnCheckService {
         "de.redsix.dmncheck.validators.OutputTypeDeclarationValidator",
         "de.lv1871.oss.dmnmgr.domain.InputExpressionRequiredValidator",
         "de.lv1871.oss.dmnmgr.domain.OutputNameRequiredValidator",
-        "de.lv1871.oss.dmnmgr.domain.InputEntryValidator"
+        "de.lv1871.oss.dmnmgr.domain.InputEntryValidator",
+        "de.lv1871.oss.dmnmgr.domain.OutputEntryValidator"
     };
 
     @PostConstruct
@@ -110,6 +111,7 @@ public class AdvancedDmnCheckService {
             .create()
             .withTableId(getTableId(result.getElement()))
             .withRuleId(getRuleId(result.getElement()))
+            .withCellId(getCellId(result.getElement()))
             .withCounterRuleId(tryFindCounter(result.getMessage()))
             .withMessage(result.getMessage())
             .withSeverity(correctSeverity(result))
@@ -155,7 +157,7 @@ public class AdvancedDmnCheckService {
                 .map(ModelElementInstance::getParentElement)
                 .map(element -> element.getAttributeValue(ATTRIBUTE_NAME_RULE_ID))
                 .orElse(null);
-        } else if(isInputEntry(instance)) {
+        } else if(isInputEntry(instance) || isOutputEntry(instance)) {
             return Optional.ofNullable(instance)
                 .map(ModelElementInstance::getParentElement)
                 .map(ModelElementInstance::getParentElement)
@@ -173,13 +175,24 @@ public class AdvancedDmnCheckService {
         return "inputEntry".equals(instance.getElementType().getTypeName());
     }
 
+    private boolean isOutputEntry(ModelElementInstance instance) {
+        return "outputEntry".equals(instance.getElementType().getTypeName());
+    }
+
     private String getRuleId(ModelElementInstance instance) {
         if (isDecisionRule(instance)) {
             return instance.getAttributeValue(ATTRIBUTE_NAME_RULE_ID);
-        } else if (isInputEntry(instance)) {
+        } else if (isInputEntry(instance) || isOutputEntry(instance)) {
             return instance.getParentElement().getAttributeValue(ATTRIBUTE_NAME_RULE_ID);
         }
 
+        return null;
+    }
+
+    private String getCellId(ModelElementInstance instance) {
+        if (isInputEntry(instance) || isOutputEntry(instance)) {
+            return instance.getAttributeValue(ATTRIBUTE_NAME_RULE_ID);
+        }
         return null;
     }
 
