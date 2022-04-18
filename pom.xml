@@ -33,7 +33,7 @@
 		<swagger.version>2.5.0</swagger.version>
 		<h2.version>1.4.193</h2.version>
 		<feel.scala.version>1.10.1</feel.scala.version>
-		<redsix.dmn-check.version>1.1.4</redsix.dmn-check.version>
+		<redsix.dmn-check.version>1.2.3</redsix.dmn-check.version>
 	</properties>
 
 	<scm>
