@@ -29,7 +29,7 @@
 		<camunda.test.assert.version>1.2</camunda.test.assert.version>
 		<springframework.boot.version>2.2.0.RELEASE</springframework.boot.version>
 		<junit.version>4.12</junit.version>
-		<jackson.version>2.10.0</jackson.version>
+		<jackson.version>2.13.4.1</jackson.version>
 		<swagger.version>2.5.0</swagger.version>
 		<h2.version>1.4.193</h2.version>
 		<feel.scala.version>1.10.1</feel.scala.version>
